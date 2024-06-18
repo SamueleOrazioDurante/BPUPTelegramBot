@@ -1,4 +1,5 @@
 import telebot
+from telebot import apihelper
 import os
 import urllib.request
 import json
@@ -13,6 +14,11 @@ APIKey = file.read()
 file.close()
 
 bot = telebot.TeleBot(key)
+
+# bot.log_out()
+
+apihelper.API_URL = 'http://0.0.0.0:8081/bot{0}/{1}'
+apihelper.FILE_URL = 'http://0.0.0.0:8081'
 
 quality = "play"
 
