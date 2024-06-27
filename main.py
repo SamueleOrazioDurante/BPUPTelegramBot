@@ -112,6 +112,14 @@ def voice_handler(message):
     bot.reply_to(voice_message, text)
     voiceRecognizer.clear()
 
+@bot.message_handler(commands=['patchnotes', 'Ottiene le ultime patch notes'])
+def get_patchnotes(message):
+
+    logger.command(message)
+    
+    f = open("patchnotes", "r") # reads and return entire file
+    bot.send_message(message.chat.id, f.read())
+
 logger.toConsole("---------------------------------------------------")
 logger.toConsole("Bot started!")
 
