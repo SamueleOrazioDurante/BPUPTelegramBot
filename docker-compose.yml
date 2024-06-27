@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  bannatiperunpisellobot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+       - ./logs:/logs
+    env_file:
+       - .env
+    restart: unless-stopped
+    network_mode: "host"

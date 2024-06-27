@@ -1,0 +1,11 @@
+# folders
+__pycache__/*
+__pycache__
+logs/*
+.git/*
+old/
+old/*
+
+# files
+
+example.env
