@@ -32,7 +32,7 @@ bot = telebot.TeleBot(BOT_TOKEN) # instance bot
 @bot.message_handler(regexp="https://vm.tiktok.com/")
 def tiktok_dl(message):
 
-    logger.log("Richiesta di download: ",message)
+    logger.log(" (Tiktok) Richiesta di download: ",message)
     url = message.text
 
     filename = "tiktok.mp4"
@@ -40,7 +40,7 @@ def tiktok_dl(message):
         urllib.request.urlretrieve(apiRequest.TiktokAPIRequest(TIKTOK_API_TOKEN,url), filename)
         
         telegramAction.sendVideo(bot,message,filename)
-        logger.log("Video mandato!",message)
+        logger.log(" (Tiktok) Video mandato!",message)
         
     except Exception as e:
         logger.error(str(e),message,True) 
@@ -69,19 +69,65 @@ def getTiktokQuality(message):
 
 @bot.message_handler(regexp="https://x.com/")
 def twitter_ss(message):
-    logger.log("Richiesta di screenshot: ",message)
+    logger.log(" (Twitter) Richiesta di download: ",message)
 
     url = message.text
-    filename = "twitter.png"
     
     try:
-        urllib.request.urlretrieve(apiRequest.TweetAPIRequest(TWITTER_API_TOKEN,url), filename)
+
+        post = apiRequest.TweetAPIRequest(TWITTER_API_TOKEN,url);
         
-        telegramAction.sendImage(bot,message,filename)
-        logger.log("Screenshot eseguito: ",message)
+        # get description and varius images or videos of a post
+        text = post[0];
+        images = post[1];
+        videos = post[2];
+
+        # solo descrizione
+        if (len(images) == 0) & (len(videos) == 0):
+            exit
+        # solo 1 immagine
+        elif(len(images) == 1):
+            filename = "image.png"
+            urllib.request.urlretrieve(images[0], filename)
+            telegramAction.sendImage(bot,message,filename)
+        # solo 1 video
+        elif(len(videos) == 1):
+            filename = "video.mp4"
+            urllib.request.urlretrieve(videos[0], filename)
+            telegramAction.sendVideo(bot,message,filename)
+        # solo immagini
+        elif(len(videos)==0):
+            getImages(images)
+            telegramAction.sendMultipleImages(bot,message,len(images))
+        # solo video
+        elif(len(images)==0):
+            getVideos(videos)
+            telegramAction.sendMultipleVideos(bot,message,len(videos))
+        # misto tra immagini e video
+        else:
+            telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
+        
+        bot.send_message(message.chat.id, text)
+        logger.log(" (Twitter) Download eseguito: ",message)
         
     except Exception as e:
         logger.error(str(e),message,True)
+
+def getImages(images):
+    i = 0 
+    for image in images:
+        filename = "image"+str(i)+".jpg"
+        urllib.request.urlretrieve(image, filename)
+        logger.toConsole("Download effettuato: "+filename)
+        i+=1
+
+def getVideos(videos):
+    i = 0 
+    for video in videos:
+        filename = "video"+str(i)+".mp4"
+        urllib.request.urlretrieve(video, filename)
+        logger.toConsole("Download effettuato: "+filename)
+        i+=1
 
 # speech to text
 
@@ -116,7 +162,7 @@ def voice_handler(message):
 def get_patchnotes(message):
 
     logger.command(message)
-    
+
     f = open("patchnotes", "r") # reads and return entire file
     bot.send_message(message.chat.id, f.read())
 
