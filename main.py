@@ -112,23 +112,6 @@ def voice_handler(message):
     bot.reply_to(voice_message, text)
     voiceRecognizer.clear()
 
-# general commands
-
-@bot.message_handler(commands=['bersinator', 'help'])
-def easteregg(message):
-    logger.command(message)
-    bot.send_message(message.chat.id, "Coglione")
-
-@bot.message_handler(commands=['valorant', 'help'])
-def easteregg(message):
-    logger.command(message)
-    bot.send_message(message.chat.id, "magna coglione")
-
-@bot.message_handler(commands=['bissolimerda', 'help'])
-def easteregg(message):
-    logger.command(message)
-    bot.send_message(message.chat.id, "puttana")
-
 logger.toConsole("---------------------------------------------------")
 logger.toConsole("Bot started!")
 
