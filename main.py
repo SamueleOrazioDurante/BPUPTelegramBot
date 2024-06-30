@@ -22,10 +22,10 @@ bot = telebot.TeleBot(BOT_TOKEN) # instance bot
 
 # extra config for using local telegram API
 
-# bot.logout() # to log out from telegram base API (only first time)
+#bot.log_out() # to log out from telegram base API (only first time)
 
-#apihelper.API_URL = 'http://0.0.0.0:6969/bot{0}/{1}'
-#apihelper.FILE_URL = 'http://0.0.0.0:6969'
+#telebot.apihelper.API_URL = 'http://0.0.0.0:6969/bot{0}/{1}'
+#telebot.apihelper.FILE_URL = 'http://0.0.0.0:6969'
 
 # tiktok downloader
 
