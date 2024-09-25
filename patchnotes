@@ -16,8 +16,9 @@
 
 25/09/24
   - Prime patch notes :D
-  - Inserita la possibilità di ignorare tutte le richieste di comandi provenienti da chat id diversi da quello impostato nel file .env
-
+  - Inserita la possibilità di ignorare tutte le richieste di comandi provenienti da chat id diversi da quello impostato nel file .env (TO-DO: verificare che il chat id riporti ad una chat corretta o sia -1)
+  - Messaggio di avvertimento all`avvio del bot con tutorial di utilizzo e versione attuale (TO-DO: visualizzare se è versione più aggiornata o è da aggiornare)
+  - Messaggio di errore sia su telegram che nei log se il file supera i 50mb (non viene nemmeno effettuata una prova di send del video per non causare errori inutili, viene però comunque eseguita la richiesta all`API) [SOLO PER TIKTOK] [CONTROLLO IGNORATO IN CASO DI LOCAL_API]
 
 
 

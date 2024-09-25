@@ -13,7 +13,7 @@ def log(text,message): # get all messages
 
 def error(text,message,isError): # get all errors
     if isError:
-        toConsole(f"Errore: {text}")
+        log(f"Errore: {text}",message)
 
 def command(message): # get all commands
      log("Comando eseguito!",message)
