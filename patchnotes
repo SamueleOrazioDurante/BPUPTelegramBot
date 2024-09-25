@@ -1,2 +1,15 @@
-PROVA 31423423
-MAGNA GUARDAMI VOLARE
+...
+
+  Funzioni:
+    1) Download video tiktok 
+    2) Download post twitter (sia video, che immagini sia singoli che multipli)
+        {SOTTO I 50MB SE NON SI UTILIZZA LA LOCAL-API DI TELEGRAM}
+    3) Comando /totext per convertire un audio in testo
+        {NON FUNZIONANTE SE SI UTILIZZA LA LOCAL-API DI TELEGRAM} (perchè non ne ho idea e non ho voglia di capirlo :D)
+
+  API fornite da RapidAPI (versione gratuita, link nel file example.env)
+
+...
+
+25/09/24
+  -Prime patch notes :D
