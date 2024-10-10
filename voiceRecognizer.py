@@ -1,20 +1,28 @@
 import os
 import subprocess
 
-import whisper
+from transformers import pipeline
 
-model = whisper.load_model('base')
+# Crea il pipeline per il riconoscimento automatico del parlato
+pipe = pipeline("automatic-speech-recognition", model="ALM/whisper-it-small")
 
 def voice_recognizer(language):
 
     subprocess.run(['ffmpeg', '-i', 'audio.ogg', 'audio.wav', '-y'])  # formatting ogg file in to wav format
     text = 'Words not recognized.'
 
-    path = "audio.wav"
 
     try:
-        result = model.transcribe(str(path), language=language, verbose=False)  # listen to file
-        text = result['text']  # and write the heard text to a text variable
+
+        # Specifica il percorso del file audio
+        audio_file = "audio.wav"
+
+        # Trasforma il file audio in testo
+        result = pipe(audio_file)
+
+        # Stampa il risultato
+        text = result['text']
+
     except Exception as e:
         print(str(e))
 
