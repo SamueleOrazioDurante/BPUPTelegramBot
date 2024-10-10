@@ -4,7 +4,6 @@ import telebot # telegram bot manager
 # general utilities
 import os
 import urllib.request
-import speech_recognition as sr
 
 # script
 import tokenManager
@@ -239,7 +238,7 @@ def voice_handler(message):
             with open('audio.ogg', 'wb') as file:
                 file.write(download_file)
 
-        text = voiceRecognizer.voice_recognizer(sr,'it_IT')    # default language: italian
+        text = voiceRecognizer.voice_recognizer('it')    # default language: italian
 
         logger.log("Speech to text eseguito!",message)
         bot.reply_to(voice_message, text)

@@ -20,5 +20,12 @@
   - Messaggio di avvertimento all`avvio del bot con tutorial di utilizzo e versione attuale (TO-DO: visualizzare se è versione più aggiornata o è da aggiornare)
   - Messaggio di errore sia su telegram che nei log se il file supera i 50mb (non viene nemmeno effettuata una prova di send del video per non causare errori inutili, viene però comunque eseguita la richiesta all`API) [SOLO PER TIKTOK] [CONTROLLO IGNORATO IN CASO DI LOCAL_API]
 
+10/10/24
+
+  - Seconde patch notes :D
+  - Cambio del model utilizzato per la trascrizione dei messaggi vocali (da SpeechRecognizer di Google a Whisper di OpenAI, questo rende di conseguenza il progettino più pesante per via del model)
+
+  - TO-DO: video+vocali con video aggiunti alla trascrizione totext (quindi convertire un .mp4[o eventuale formato di telegram] a un wav per la trascrizione)
+  - TO-DO2: mettere la possibilità di scegliere lingua+model dalle variabili di ambiente (anche perchè sto usando il base model ma pesa un rene e mezzo)
 
 
