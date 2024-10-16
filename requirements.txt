@@ -1,2 +1,2 @@
 telebot==0.0.5
-whisper
+openai-whisper
