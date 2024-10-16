@@ -12,7 +12,6 @@ SetLogLevel(0)
 model_path = "vosk-model-it-0.22"  # Change this to your model path
 
 model = Model(model_path)
-recognizer = KaldiRecognizer(model, 16000)
 
 
 def voice_recognizer(language):
@@ -22,26 +21,21 @@ def voice_recognizer(language):
     
     try:
 
-        # Open a WAV file (you can also modify this to use a microphone)
-        wf = wave.open("audio.wav", "rb")  # Change to your audio file path
-        if wf.getnchannels() != 1 or wf.getsampwidth() != 2 or wf.getframerate() != 16000:
-            print("Audio file must be WAV format mono PCM.")
-            return text
+        with open("audio.wav", 'rb') as file:
+            audio_data = file.read()
 
-        # Read audio data and transcribe
-        while True:
-            data = wf.readframes(4000)
-            if len(data) == 0:
-                break
-            if recognizer.AcceptWaveform(data):
-                result = recognizer.Result()
-                text = json.loads(result).get("partial", "")
-            else:
-                text = json.loads(recognizer.PartialResult()).get("partial", "")
+        recognizer = KaldiRecognizer(model, 16000)
+        recognizer.AcceptWaveform(audio_data)
+        result_json = recognizer.FinalResult()
+        result = json.loads(result_json)
+        text = result['text']
+
+        clear()
 
     except Exception as e:
         print(str(e))
         clear()
+
 
     return text
 
