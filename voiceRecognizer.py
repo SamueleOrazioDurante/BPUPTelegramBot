@@ -6,7 +6,7 @@ import whisper
 
 whisper_model = whisper.load_model("small") #+ ("." + "it"))
 
-def voice_recognizer():
+def voice_recognizer(language):
 
     result = whisper_model.transcribe("audio.wav", verbose=False, language=language, fp16=False)
     rawtext = " ".join([segment["text"].strip() for segment in result["segments"]])  # type: ignore
