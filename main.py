@@ -232,16 +232,21 @@ def voice_handler(message):
 
         file_size = file.file_size
         if int(file_size) >= 1715000:
-            bot.send_message(message.chat.id, 'Upload file size is too large.')
-        else:
-            download_file = bot.download_file(file.file_path)  # download file for processing
-            with open('audio.ogg', 'wb') as file:
-                file.write(download_file)
+            bot.reply_to(voice_message, 'Upload file size is too large.')
+            return
+            # check if message type is supported (audio for now, video/video-audio after)
 
-        text = voiceRecognizer.voice_recognizer('it')    # default language: italian
+        download_file = bot.download_file(file.file_path)  # download file for processing
+        with open('audio.ogg', 'wb') as file:
+                ile.write(download_file)
+
+        response_message = bot.reply_to(voice_message, 'Trascrizione in corso...')
+
+        transcripted_text = voiceRecognizer.voice_recognizer("it-IT")    # default language: italian # da mettere dentro .env
 
         logger.log("Speech to text eseguito!",message)
-        bot.reply_to(voice_message, text)
+
+        bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)
         voiceRecognizer.clear()
 
     except wrongChatID:
