@@ -244,7 +244,7 @@ def voice_handler(message):
 
         transcripted_text = voiceRecognizer.voice_recognizer("it-IT")    # default language: italian # da mettere dentro .env
 
-        logger.log("Speech to text eseguito!",message)
+        logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
 
         bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)
         voiceRecognizer.clear()
