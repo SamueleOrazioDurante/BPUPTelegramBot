@@ -4,7 +4,7 @@ import re
 
 import whisper
 
-whisper_model = whisper.load_model("small" + ("." + "it"))
+whisper_model = whisper.load_model("small") #+ ("." + "it"))
 
 def voice_recognizer():
 
