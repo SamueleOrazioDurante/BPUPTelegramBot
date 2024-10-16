@@ -7,7 +7,7 @@ from whisper import load_model
 
 
 def voice_recognizer(language):
-    whisper_model = config.whisper_model + ("." + language)
+    whisper_model = "small" + ("." + language)
 
     result = whisper_model.transcribe("audio.wav", verbose=False, language=language, fp16=False)
     rawtext = " ".join([segment["text"].strip() for segment in result["segments"]])  # type: ignore
@@ -15,7 +15,7 @@ def voice_recognizer(language):
     alltext = re.sub(r"([\.\!\?]) ", r"\1\n", rawtext)
 
     clear()
-    
+
     return alltext
 
 
