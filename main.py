@@ -238,11 +238,11 @@ def voice_handler(message):
 
         download_file = bot.download_file(file.file_path)  # download file for processing
         with open('audio.ogg', 'wb') as file:
-                ile.write(download_file)
+                file.write(download_file)
 
         response_message = bot.reply_to(voice_message, 'Trascrizione in corso...')
 
-        transcripted_text = voiceRecognizer.voice_recognizer("it-IT")    # default language: italian # da mettere dentro .env
+        transcripted_text = voiceRecognizer.voice_recognizer("it")    # default language: italian # da mettere dentro .env
 
         logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
 
