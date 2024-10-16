@@ -2,12 +2,11 @@ import os
 import subprocess
 import re
 
-from whisper.model import Whisper
-from whisper import load_model
+import whisper
 
+whisper_model = whisper.load_model("small" + ("." + "it"))
 
-def voice_recognizer(language):
-    whisper_model = "small" + ("." + language)
+def voice_recognizer():
 
     result = whisper_model.transcribe("audio.wav", verbose=False, language=language, fp16=False)
     rawtext = " ".join([segment["text"].strip() for segment in result["segments"]])  # type: ignore
