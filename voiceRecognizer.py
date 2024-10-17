@@ -16,9 +16,12 @@ if(tokenManager.get_language() == "italian"):
 elif(tokenManager.get_model() == "small"):
     pipe = pipeline("automatic-speech-recognition", model="openai/whisper-small")
     logger.toConsole("Loaded model: small")
-else:
+elif(tokenManager.get_model() == "large"):
     pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v3")
     logger.toConsole("Loaded model: large")
+else:
+    pipe = pipeline("automatic-speech-recognition", model="distil-whisper/distil-large-v3")
+    logger.toConsole("Loaded model: distil-large")
 
 
 def voice_recognizer(language):
