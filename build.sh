@@ -2,6 +2,6 @@ docker-compose build
 
 docker-compose up -d
 
-sleep 5
+sleep 10
 
-docker logs bannatiperunpisellobot_1
+docker-compose logs
