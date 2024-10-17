@@ -228,26 +228,29 @@ def voice_handler(message):
         file_id = voice_message.voice.file_id  # file size check. If the file is too big, FFmpeg may not be able to handle it.
         file = bot.get_file(file_id)
 
+        response_message = bot.reply_to(voice_message, 'Trascrizione in corso...')
+
         logger.toConsole(file.file_path)
 
         file_size = file.file_size
         if int(file_size) >= 1715000:
-            bot.reply_to(voice_message, 'Upload file size is too large.')
+            bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Audio troppo lungo!")
             return
             # check if message type is supported (audio for now, video/video-audio after)
 
-        download_file = bot.download_file(file.file_path)  # download file for processing
-        with open('audio.ogg', 'wb') as file:
+        try:
+            download_file = bot.download_file(file.file_path)  # download file for processing
+            with open('audio.ogg', 'wb') as file:
                 file.write(download_file)
 
-        response_message = bot.reply_to(voice_message, 'Trascrizione in corso...')
+            transcripted_text = voiceRecognizer.voice_recognizer("it")    # default language: italian # da mettere dentro .env
 
-        transcripted_text = voiceRecognizer.voice_recognizer("it")    # default language: italian # da mettere dentro .env
+            logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
 
-        logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
-
-        bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)
-        voiceRecognizer.clear()
+            bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)
+            voiceRecognizer.clear()
+        except:
+            bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Errore. Trascrizione fallita!")
 
     except wrongChatID:
         logger.error("wrongChatID",message,True)

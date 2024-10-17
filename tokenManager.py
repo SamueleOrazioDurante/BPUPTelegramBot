@@ -67,3 +67,37 @@ def read_chat_id():
     if CHAT_ID is None:
         raise ('Chat id for the bot must be provided (CHAT_ID variable)')
     return CHAT_ID
+
+def get_language():
+
+    #read model language from config.py file
+    LANGUAGE = None
+
+    try:
+        from config import LANGUAGE
+    except:
+        pass
+
+    if len(LANGUAGE) == 0:
+        LANGUAGE = os.environ.get('LANGUAGE')
+
+    if LANGUAGE is None:
+        raise ('Model language for the bot must be provided (LANGUAGE variable)')
+    return LANGUAGE
+
+def get_model():
+
+    #read model type from config.py file
+    MODEL = None
+
+    try:
+        from config import MODEL
+    except:
+        pass
+
+    if len(MODEL) == 0:
+        MODEL = os.environ.get('MODEL')
+
+    if MODEL is None:
+        raise ('Model type for the bot must be provided (MODEL variable)')
+    return MODEL

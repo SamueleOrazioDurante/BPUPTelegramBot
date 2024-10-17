@@ -1,26 +1,30 @@
 import os
 import subprocess
-import re
 
-import whisper
+from transformers import pipeline
 
-whisper_model = whisper.load_model("small") #+ ("." + "it"))
+
+if(tokenManager.getLanguage() == "italian")
+    if(tokenManager.getModel() == "small")
+        pipe = pipeline("automatic-speech-recognition", model="ALM/whisper-it-small")
+    else:
+        pipe = pipeline("automatic-speech-recognition", model="Sandiago21/whisper-large-v2-italian")
+else:
+    pipe = pipeline("automatic-speech-recognition", model="openai/whisper-small")
+
 
 def voice_recognizer(language):
 
     subprocess.run(['ffmpeg', '-i', 'audio.ogg', 'audio.wav', '-y'])  # formatting ogg file in to wav format
 
     try:
-        result = whisper_model.transcribe("audio.wav", verbose=False, language=language, fp16=False)
-        rawtext = " ".join([segment["text"].strip() for segment in result["segments"]])  # type: ignore
-        rawtext = re.sub(" +", " ", rawtext)
-        alltext = re.sub(r"([\.\!\?]) ", r"\1\n", rawtext)
+        text = pipe("audio.wav")["text"]
     except:
         clear()
         return "Errore, riprova più tardi."
 
     clear()
-    return alltext
+    return text
 
 
 def clear():
