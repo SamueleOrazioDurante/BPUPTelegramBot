@@ -29,7 +29,7 @@ def voice_recognizer(language):
     subprocess.run(['ffmpeg', '-i', 'audio.ogg', 'audio.wav', '-y'])  # formatting ogg file in to wav format
 
     try:
-        text = pipe("audio.wav")["text"]
+        text = pipe("audio.wav",generate_kwargs={"language": "italian"})["text"]
     except:
         clear()
         return "Errore, riprova più tardi."
