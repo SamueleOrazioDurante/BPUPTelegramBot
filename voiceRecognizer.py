@@ -6,8 +6,8 @@ import subprocess
 from transformers import pipeline
 
 
-if(tokenManager.getLanguage() == "italian"):
-    if(tokenManager.getModel() == "small"):
+if(tokenManager.get_language() == "italian"):
+    if(tokenManager.get_model() == "small"):
         pipe = pipeline("automatic-speech-recognition", model="ALM/whisper-it-small")
     else:
         pipe = pipeline("automatic-speech-recognition", model="Sandiago21/whisper-large-v2-italian")
