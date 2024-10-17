@@ -1,4 +1,4 @@
-import tokenManager
+import tokenManager, logger
 
 import os
 import subprocess
@@ -9,10 +9,13 @@ from transformers import pipeline
 if(tokenManager.get_language() == "italian"):
     if(tokenManager.get_model() == "small"):
         pipe = pipeline("automatic-speech-recognition", model="ALM/whisper-it-small")
+        loggger.toConsole("Loaded model: italian-small")
     else:
         pipe = pipeline("automatic-speech-recognition", model="Sandiago21/whisper-large-v2-italian")
+        loggger.toConsole("Loaded model: italian-large")
 else:
     pipe = pipeline("automatic-speech-recognition", model="openai/whisper-small")
+    loggger.toConsole("Loaded model: small")
 
 
 def voice_recognizer(language):
