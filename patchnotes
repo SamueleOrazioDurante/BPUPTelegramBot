@@ -28,4 +28,9 @@
   - TO-DO: video+vocali con video aggiunti alla trascrizione totext (quindi convertire un .mp4[o eventuale formato di telegram] a un wav per la trascrizione)
   - TO-DO2: mettere la possibilità di scegliere lingua+model dalle variabili di ambiente (anche perchè sto usando il base model ma pesa un rene e mezzo)
 
+*VERSIONE 1.1*
 
+17/10/24
+
+  - Aggiunta la possibilità di cambiare il model e la lingua tramite env file
+  - Aggiunta la possibilitá di trascrivere video e video note (i messaggi vocali con i video)

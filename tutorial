@@ -1,7 +1,7 @@
-BOT_VERSION: 1.0
+BOT_VERSION: 1.1
 
 COMMANDS:
-    - /totext (use "answer" button on a voice message with this command)
+    - /totext (use "answer" button on a voice/video/video_note message with this command)
     - /patchnotes (see all updates timeline)
 
     DEV:
