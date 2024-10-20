@@ -37,4 +37,4 @@
 
 20/10/24
   
-  - Aggiunto il comando /logs per visualizzare le ultime 100 righe di logs (così posso debuggare anche quando non ho il server a portata di mano)
+  - Aggiunto il comando /logs per visualizzare le ultime 75 righe di logs (così posso debuggare anche quando non ho il server a portata di mano)
