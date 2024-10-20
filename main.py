@@ -296,9 +296,35 @@ def get_patchnotes(message):
         chat_id_check(message)
 
         logger.command(message)
+        bot.delete_message(message.chat.id, message.id) # delete initial command
 
         f = open("patchnotes", "r") # reads and return entire file
         bot.send_message(message.chat.id, f.read())
+
+    except wrongChatID:
+        logger.error("wrongChatID",message,True)
+        pass
+
+@bot.message_handler(commands=['logs', 'Ritorna gli ultimi log del bot'])
+def get_latestlogs(message):
+
+    try:    
+
+        chat_id_check(message)
+        logger.command(message)
+
+        logs = ""
+
+        with open("logs/log.txt") as file:   
+
+            for line in (file.readlines() [-100:]):
+                logs = logs + line    # reads and return last (max 100) rows of file
+                print("Line addedd"+logs)
+
+        if logs == "":  
+            logs = "No logs found (wtf even happen)"
+
+        bot.send_message(message.chat.id, logs)
 
     except wrongChatID:
         logger.error("wrongChatID",message,True)

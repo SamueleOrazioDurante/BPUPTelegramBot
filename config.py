@@ -4,5 +4,5 @@ TWITTER_API_TOKEN = ''  # https://tweethunter.io/tweetpik
 CHAT_ID = '' # bot will only answer to this chat id (set it to -1 if you want it to be able to answer to anyone). Use (https://t.me/raw_data_bot)
 
 # IA Transcription
-LANGUAGE = "italian" # language used for recognization (italian,english,spanish,...)
-MODEL = "small" # (small,large)
+LANGUAGE = "" # language used for recognization (italian,english,spanish,...)
+MODEL = "" # (small,large)

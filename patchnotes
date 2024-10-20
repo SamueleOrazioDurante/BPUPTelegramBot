@@ -34,3 +34,7 @@
 
   - Aggiunta la possibilità di cambiare il model e la lingua tramite env file
   - Aggiunta la possibilitá di trascrivere video e video note (i messaggi vocali con i video)
+
+20/10/24
+  
+  - Aggiunto il comando /logs per visualizzare le ultime 100 righe di logs (così posso debuggare anche quando non ho il server a portata di mano)

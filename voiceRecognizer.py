@@ -14,6 +14,8 @@ if(model == "small"):
 elif(model == "large"):
     pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v3")
     logger.toConsole("Loaded model: large")
+else:
+    logger.toConsole("Voice recognizer: disabled")
 
 
 def voice_recognizer(wav_audio_path):

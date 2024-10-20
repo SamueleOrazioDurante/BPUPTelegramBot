@@ -2,9 +2,9 @@ __pycache__/
 .env
 logs/
 commands.json
-config.py
 vosk-model-it-0.22/
 
 tiktok.mp4
 audio.wav
 audio.ogg
+config.py

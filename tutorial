@@ -3,6 +3,7 @@ BOT_VERSION: 1.1
 COMMANDS:
     - /totext (use "answer" button on a voice/video/video_note message with this command)
     - /patchnotes (see all updates timeline)
+    - /logs (gets all [max 100 rows] of logs)
 
     DEV:
 
