@@ -214,7 +214,7 @@ def getVideos(videos):
 
 # instagram downloader
 
-@bot.message_handler(regexp="https://url.com/")
+@bot.message_handler(regexp="https://www.instagram.com/reel/")
 
 def instagram_ss(message):
 
@@ -229,7 +229,8 @@ def instagram_ss(message):
         
         try:
 
-            post = apiRequest.InstaAPIRequest(INSTAGRAM_API_TOKEN,url);
+            reel_id = url[31:][:11]
+            post = apiRequest.InstaAPIRequest(INSTAGRAM_API_TOKEN,reel_id);
             
             # get description and varius images or videos of a post
             text = post[0];
@@ -262,7 +263,7 @@ def instagram_ss(message):
                 telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
             
             bot.send_message(message.chat.id, text)
-            logger.log(" (Twitter) Download eseguito: ",message)
+            logger.log(" (Instagram) Download eseguito: ",message)
             
         except Exception as e:
             bot.send_message(message.chat.id, "E son finite le request, dio cane")
