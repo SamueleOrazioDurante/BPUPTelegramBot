@@ -51,6 +51,23 @@ def read_twitter_token():
         raise ('Token for the bot must be provided (TWITTER_API_TOKEN variable)')
     return TWITTER_API_TOKEN
 
+def read_instagram_token():
+
+    #read bot token from config.py file
+    INSTAGRAM_API_TOKEN = None
+
+    try:
+        from config import INSTAGRAM_API_TOKEN
+    except:
+        pass
+
+    if len(INSTAGRAM_API_TOKEN) == 0:
+        INSTAGRAM_API_TOKEN = os.environ.get('INSTAGRAM_API_TOKEN')
+
+    if INSTAGRAM_API_TOKEN is None:
+        raise ('Token for the bot must be provided (INSTAGRAM_API_TOKEN variable)')
+    return INSTAGRAM_API_TOKEN
+
 def read_chat_id():
 
     #read chat_id from config.py file
@@ -101,3 +118,4 @@ def get_model():
     if MODEL is None:
         raise ('Model type for the bot must be provided (MODEL variable)')
     return MODEL
+

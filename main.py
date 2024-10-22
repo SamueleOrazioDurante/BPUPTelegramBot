@@ -16,6 +16,7 @@ import markupManager
 BOT_TOKEN = tokenManager.read_bot_token()
 TIKTOK_API_TOKEN = tokenManager.read_tiktok_token()
 TWITTER_API_TOKEN = tokenManager.read_twitter_token()
+INSTAGRAM_API_TOKEN = tokenManager.read_instagram_token()
 CHAT_ID = tokenManager.read_chat_id()
 
 bot = telebot.TeleBot(BOT_TOKEN) # instance bot
@@ -189,6 +190,7 @@ def twitter_ss(message):
             logger.log(" (Twitter) Download eseguito: ",message)
             
         except Exception as e:
+            bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request")
             logger.error(str(e),message,True)
 
     except wrongChatID:
@@ -209,6 +211,65 @@ def getVideos(videos):
         urllib.request.urlretrieve(video, filename)
         logger.toConsole("Download effettuato: "+filename)
         i+=1
+
+# instagram downloader
+
+@bot.message_handler(regexp="https://url.com/")
+
+def instagram_ss(message):
+
+
+    try:
+
+        chat_id_check(message)
+
+        logger.log(" (Instagram) Richiesta di download: ",message)
+
+        url = message.text
+        
+        try:
+
+            post = apiRequest.InstaAPIRequest(INSTAGRAM_API_TOKEN,url);
+            
+            # get description and varius images or videos of a post
+            text = post[0];
+            images = post[1];
+            videos = post[2];
+
+            # solo descrizione
+            if (len(images) == 0) & (len(videos) == 0):
+                exit
+            # solo 1 immagine
+            elif(len(images) == 1):
+                filename = "image.png"
+                urllib.request.urlretrieve(images[0], filename)
+                telegramAction.sendImage(bot,message,filename)
+            # solo 1 video
+            elif(len(videos) == 1):
+                filename = "video.mp4"
+                urllib.request.urlretrieve(videos[0], filename)
+                telegramAction.sendVideo(bot,message,filename)
+            # solo immagini
+            elif(len(videos)==0):
+                getImages(images)
+                telegramAction.sendMultipleImages(bot,message,len(images))
+            # solo video
+            elif(len(images)==0):
+                getVideos(videos)
+                telegramAction.sendMultipleVideos(bot,message,len(videos))
+            # misto tra immagini e video
+            else:
+                telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
+            
+            bot.send_message(message.chat.id, text)
+            logger.log(" (Twitter) Download eseguito: ",message)
+            
+        except Exception as e:
+            bot.send_message(message.chat.id, "E son finite le request, dio cane")
+            logger.error(str(e),message,True)
+
+    except wrongChatID:
+        logger.error("wrongChatID",message,True)
 
 # speech to text
 
