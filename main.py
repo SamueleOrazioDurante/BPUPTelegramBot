@@ -288,7 +288,9 @@ def instagram_ss(message):
                 getVideos(videos)
                 telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
             
-            bot.send_message(message.chat.id, text)
+            if text != "": # send caption only if there is one
+                bot.send_message(message.chat.id, text)
+
             logger.log(" (Instagram) Download eseguito: ",message)
             
         except Exception as e:
