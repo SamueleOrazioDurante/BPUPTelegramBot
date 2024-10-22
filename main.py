@@ -157,9 +157,9 @@ def twitter_ss(message):
             post = apiRequest.TweetAPIRequest(TWITTER_API_TOKEN,url);
             
             # get description and varius images or videos of a post
-            text = post[0];
-            images = post[1];
-            videos = post[2];
+            text = post[0]
+            images = post[1]
+            videos = post[2]
 
             # solo descrizione
             if (len(images) == 0) & (len(videos) == 0):
@@ -199,7 +199,13 @@ def twitter_ss(message):
 def getImages(images):
     i = 0 
     for image in images:
+        logger.toConsole("Tentativo di dl (image): "+image)
         filename = "image"+str(i)+".jpg"
+
+        opener = urllib.request.build_opener()
+        opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
+        urllib.request.install_opener(opener)
+
         urllib.request.urlretrieve(image, filename)
         logger.toConsole("Download effettuato: "+filename)
         i+=1
@@ -207,7 +213,13 @@ def getImages(images):
 def getVideos(videos):
     i = 0 
     for video in videos:
+        logger.toConsole("Tentativo di dl (video): "+video)
         filename = "video"+str(i)+".mp4"
+
+        opener = urllib.request.build_opener()
+        opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
+        urllib.request.install_opener(opener)
+
         urllib.request.urlretrieve(video, filename)
         logger.toConsole("Download effettuato: "+filename)
         i+=1
@@ -233,21 +245,33 @@ def instagram_ss(message):
             post = apiRequest.InstaAPIRequest(INSTAGRAM_API_TOKEN,reel_id);
             
             # get description and varius images or videos of a post
-            text = post[0];
-            images = post[1];
-            videos = post[2];
+            text = post[0]
+            images = post[1]
+            videos = post[2]
 
             # solo descrizione
             if (len(images) == 0) & (len(videos) == 0):
-                exit
+                pass
             # solo 1 immagine
             elif(len(images) == 1):
                 filename = "image.png"
+                logger.toConsole("Tentativo di dl (image): "+images[0])
+
+                opener = urllib.request.build_opener()
+                opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
+                urllib.request.install_opener(opener)
+
                 urllib.request.urlretrieve(images[0], filename)
                 telegramAction.sendImage(bot,message,filename)
             # solo 1 video
             elif(len(videos) == 1):
                 filename = "video.mp4"
+                logger.toConsole("Tentativo di dl (video): "+videos[0])
+
+                opener = urllib.request.build_opener()
+                opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
+                urllib.request.install_opener(opener)
+
                 urllib.request.urlretrieve(videos[0], filename)
                 telegramAction.sendVideo(bot,message,filename)
             # solo immagini
@@ -260,14 +284,16 @@ def instagram_ss(message):
                 telegramAction.sendMultipleVideos(bot,message,len(videos))
             # misto tra immagini e video
             else:
+                getImages(images)
+                getVideos(videos)
                 telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
             
             bot.send_message(message.chat.id, text)
             logger.log(" (Instagram) Download eseguito: ",message)
             
         except Exception as e:
-            bot.send_message(message.chat.id, "E son finite le request, dio cane")
-            logger.error(str(e),message,True)
+           bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane")
+           logger.error(str(e),message,True)
 
     except wrongChatID:
         logger.error("wrongChatID",message,True)

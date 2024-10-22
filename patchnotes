@@ -42,3 +42,7 @@
 22/10/24
 
   - Aggiunta la possibilità di scaricare multiple immagini o video da instagram (son 100 api request al mese, non me le finite ty)
+
+  TODO:
+    a volte crasha per timeout ???
+    file da cancellare anche quando crasha

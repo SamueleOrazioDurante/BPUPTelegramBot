@@ -4,6 +4,9 @@ logs/
 commands.json
 vosk-model-it-0.22/
 
+video*.mp4
+image*.jpg
+
 tiktok.mp4
 audio.wav
 audio.ogg

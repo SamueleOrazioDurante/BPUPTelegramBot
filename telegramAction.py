@@ -66,7 +66,11 @@ def sendMultipleSource(bot,message,mediaGroup,files):
 
     bot.send_media_group(message.chat.id, mediaGroup)
 
+    garbage_cleaner(files)
 
+
+def garbage_cleaner(files):
+    
     # garbage cleaner
     
     for file in files:
