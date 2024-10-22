@@ -38,3 +38,7 @@
 20/10/24
   
   - Aggiunto il comando /logs per visualizzare le ultime 75 righe di logs (così posso debuggare anche quando non ho il server a portata di mano)
+
+22/10/24
+
+  - Aggiunta la possibilità di scaricare multiple immagini o video da instagram (son 100 api request al mese, non me le finite ty)
