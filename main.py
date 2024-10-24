@@ -397,10 +397,18 @@ def voice_handler(message):
 def voice_text_reply_animator(response_message,event):
 
     text = "Trascrizione in corso.."
+    counter = 0
     while True:
         
+        if counter == 5:
+            text = "Trascrizione in corso."
+            counter = 0
+
         bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=text)
         text +="."
+
+        counter+=1
+        
         if event.is_set():
             break
         sleep(3)
