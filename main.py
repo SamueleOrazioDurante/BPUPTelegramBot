@@ -320,7 +320,7 @@ def voice_handler(message):
         response_message = bot.reply_to(file_message, 'Trascrizione in corso.') 
 
         event = Event()
-        animator = threading.Thread(target=voice_text_reply_animator, args=(response_message,event,))
+        animator = Thread(target=voice_text_reply_animator, args=(response_message,event,))
         animator.start()
 
         try:
