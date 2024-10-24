@@ -14,6 +14,7 @@ import logger
 import telegramAction
 import voiceRecognizer
 import markupManager
+import textToSpeech
 
 BOT_TOKEN = tokenManager.read_bot_token()
 TIKTOK_API_TOKEN = tokenManager.read_tiktok_token()
@@ -40,6 +41,12 @@ if(str(CHAT_ID) != "-1"):
     message = bot.send_message(CHAT_ID,START_MESSAGE)
 
     logger.toConsole("Start message sended to "+CHAT_ID)
+
+# useless file clear
+
+voiceRecognizer.clear("tts.mp3")
+# da aggiungere altri alla lista
+logger.toConsole("File cleared!")
 
 # chat id check
 
@@ -402,6 +409,71 @@ def voice_text_reply_animator(response_message,event):
         
         if counter == 5:
             text = "Trascrizione in corso."
+            counter = 0
+
+        bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=text)
+        text +="."
+
+        counter+=1
+        
+        if event.is_set():
+            break
+        sleep(3)
+
+# text to speech
+
+@bot.message_handler(commands=['tts', 'Text to speech'])
+
+def tts_handler(message):
+
+    try:    
+
+        chat_id_check(message)
+
+        logger.command(message)
+        text_message = message.reply_to_message # get replied message
+        bot.delete_message(message.chat.id, message.id) # delete initial command
+
+        response_message = bot.reply_to(text_message, 'Un secondo che devo parlare ai muri.') 
+
+        event = Event()
+        animator = Thread(target=text_voice_reply_animator, args=(response_message,event,))
+        animator.start()
+
+        try:
+            # testo del messaggio
+            text = text_message.text
+
+            mp3_audio_path = "tts.mp3"
+
+            textToSpeech.text_to_speech(text,mp3_audio_path)
+            
+            bot.send_voice(text_message.chat.id, open(mp3_audio_path, 'rb'), reply_to_message_id=text_message.message_id)
+                         
+            logger.log("Text to speech eseguito! Testo: "+text,message)
+            
+            event.set()
+            animator.join()
+            voiceRecognizer.clear(mp3_audio_path)
+            bot.delete_message(response_message.chat.id, response_message.id) # delete reply message
+
+        except:
+            event.set()
+            animator.join()
+            bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Errore. Questo non mi sembra testo!")
+
+    except wrongChatID:
+        logger.error("wrongChatID",message,True)
+        pass
+
+def text_voice_reply_animator(response_message,event):
+
+    text = "Un secondo che devo parlare ai muri.."
+    counter = 0
+    while True:
+        
+        if counter == 5:
+            text = "Un secondo che devo parlare ai muri."
             counter = 0
 
         bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=text)

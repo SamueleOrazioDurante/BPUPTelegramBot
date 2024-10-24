@@ -43,6 +43,14 @@
 
   - Aggiunta la possibilità di scaricare multiple immagini o video da instagram (son 100 api request al mese, non me le finite ty)
 
+24/10/24
+
+  - Aggiunta una specie di animazione al comando /totext e /tts nell'attesa che elabori la richiesta
+  - Aggiunto il comando /tts per eseguire il text to speech su qualunque messaggio di testo
+
   TODO:
     a volte crasha per timeout ???
     file da cancellare anche quando crasha
+    crasha anche il tts :D
+    metti anche la possiblità di scegliere lingua e tipo di voce da env file
+    metti che se voice recognizeer non è inizializzato (stessa cosa in fututo per tts) ti dice che il bot non può fare quella determinata cosa sena il model

@@ -6,7 +6,8 @@ RUN apt update && apt install -y \
         ffmpeg \
         flac \
         unzip \
-        wget
+        wget \
+        espeak
 
 COPY requirements.txt .
 
