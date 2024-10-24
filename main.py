@@ -403,7 +403,7 @@ def voice_text_reply_animator(response_message,event):
         text +="."
         if event.is_set():
             break
-        sleep(1)
+        sleep(3)
 
 
 @bot.message_handler(commands=['patchnotes', 'Ottiene le ultime patch notes'])
