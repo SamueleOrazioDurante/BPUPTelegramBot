@@ -4,6 +4,8 @@ import telebot # telegram bot manager
 # general utilities
 import os
 import urllib.request
+from threading import Thread,Event
+from time import sleep
 
 # script
 import tokenManager
@@ -314,7 +316,12 @@ def voice_handler(message):
 
         file_message = message.reply_to_message # get replied message
         bot.delete_message(message.chat.id, message.id) # delete initial command
-        response_message = bot.reply_to(file_message, 'Trascrizione in corso...')
+        
+        response_message = bot.reply_to(file_message, 'Trascrizione in corso.') 
+
+        event = Event()
+        animator = threading.Thread(target=voice_text_reply_animator, args=(response_message,event,))
+        animator.start()
 
         try:
             # file audio
@@ -331,6 +338,9 @@ def voice_handler(message):
             transcripted_text = voiceRecognizer.fromaudio_voice_recognizer(ogg_audio_path) 
 
             logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
+
+            event.set()
+            animator.join()
 
             bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)
 
@@ -351,6 +361,8 @@ def voice_handler(message):
 
                 logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
 
+                event.set()
+                animator.join()
                 bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)          
             except:
                 try:
@@ -368,15 +380,31 @@ def voice_handler(message):
                     transcripted_text = voiceRecognizer.fromvideo_voice_recognizer(mp4_audio_path) 
 
                     logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
-
+                    
+                    event.set()
+                    animator.join()
                     bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)     
 
                 except:
+                    event.set()
+                    animator.join()
                     bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Errore. Formato non supportato!")
 
     except wrongChatID:
         logger.error("wrongChatID",message,True)
         pass
+
+def voice_text_reply_animator(response_message,event):
+
+    text = "Trascrizione in corso.."
+    while True:
+        
+        bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=text)
+        text +="."
+        if event.is_set():
+            break
+        sleep(1)
+
 
 @bot.message_handler(commands=['patchnotes', 'Ottiene le ultime patch notes'])
 def get_patchnotes(message):

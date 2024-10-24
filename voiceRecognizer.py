@@ -20,8 +20,10 @@ else:
 
 def voice_recognizer(wav_audio_path):
 
+    text = "Trascrizione: "
+
     try:
-        text = pipe(wav_audio_path,generate_kwargs={"language": f"{language}"})["text"]
+        text += pipe(wav_audio_path,generate_kwargs={"language": f"{language}"})["text"]
     except:
         clear(wav_audio_path)
         return "Errore, riprova più tardi."
