@@ -1,4 +1,4 @@
 telebot==0.0.5
 transformers
 torch
-threading
+thread
