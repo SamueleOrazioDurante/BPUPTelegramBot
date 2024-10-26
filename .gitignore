@@ -5,5 +5,4 @@ commands.json
 
 data/stats.json
 
-src/temp/*
 test.py

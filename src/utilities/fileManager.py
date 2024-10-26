@@ -1,5 +1,10 @@
 import os
 
+temp_path = "temp/"
+if not os.path.exists(temp_path):
+      os.makedirs(temp_path)
+      print("FILE: Temp dir created successfully!")
+
 def clear(file):
     # Remove unnecessary file
     if os.path.exists(file):
@@ -11,8 +16,7 @@ def clears(files):
 
 def clean_extension(ext):
 
-    dir_name = "temp/"
-    files = os.listdir(dir_name)
+    files = os.listdir(temp_path)
 
     for file in files:
         if file.endswith(f".{ext}"):

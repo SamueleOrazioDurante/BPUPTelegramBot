@@ -67,5 +67,6 @@
     5) Utilizzo di model anche per il TTS (attualmente usa una bruttissima e vecchissima libreria che non voglio mai più vedere)
     6) Possibilità di inizializzare il bot senza scaricare model per migliorare la velocità di esecuzione (sia per tts che per stt) con relativo messaggio di avviso
     7) Possibilità di inizializzare il bot senza api key delle varie api usate da RapidAPI sempre con relativo messaggio di avviso
+    8) Cosa che mi è venuta in mente 5 minuti dopo aver committato: aggiungere un messaggio che stima il tempo di trascrizione di un messaggio (sostituito a quella specie di animazione che ho provato a fare con i puntini, quindi almeno con i secondi che scendono)
 
     *EOF*
