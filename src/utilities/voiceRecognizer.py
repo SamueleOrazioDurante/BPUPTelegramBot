@@ -1,4 +1,6 @@
-import tokenManager, logger
+import auth.tokenManager as tokenManager
+import logger.logger as logger
+from utilities.fileManager import clear
 
 import os
 import subprocess
@@ -25,8 +27,7 @@ def voice_recognizer(wav_audio_path):
     try:
         text += pipe(wav_audio_path,generate_kwargs={"language": f"{language}"})["text"]
     except:
-        clear(wav_audio_path)
-        return "Errore, riprova più tardi."
+        text = "Errore, riprova più tardi."
 
     clear(wav_audio_path)
     return text
@@ -34,7 +35,7 @@ def voice_recognizer(wav_audio_path):
 
 def fromvideo_voice_recognizer(mp4_audio_path):
 
-    wav_audio_path = "audio.wav"
+    wav_audio_path = "temp/audio.wav"
     subprocess.run(['ffmpeg', '-i', f'{mp4_audio_path}', '-vn','-acodec', 'pcm_s16le' , '-ar', '44100', '-ac', '2', f'{wav_audio_path}', '-y'])  # formatting mp4 file in to wav format
 
     clear(mp4_audio_path)
@@ -42,7 +43,7 @@ def fromvideo_voice_recognizer(mp4_audio_path):
 
 def fromaudio_voice_recognizer(ogg_audio_path):
 
-    wav_audio_path = "audio.wav"
+    wav_audio_path = "temp/audio.wav"
 
     subprocess.run(['ffmpeg', '-i', f'{ogg_audio_path}', f'{wav_audio_path}', '-y'])  # formatting ogg file in to wav format
 
@@ -50,8 +51,3 @@ def fromaudio_voice_recognizer(ogg_audio_path):
     return voice_recognizer(wav_audio_path)
 
 
-
-def clear(file):
-    # Remove unnecessary file
-    if os.path.exists(file):
-        os.remove(file)

@@ -1,6 +1,7 @@
+
 import datetime
 
-import fileLogger
+import logger.fileLogger as fileLogger
 
 def toConsole(text): # print on console
     date = str(datetime.datetime.now())
@@ -20,3 +21,6 @@ def command(message): # get all commands
 
 def toFile(text): # write to a log file
     fileLogger.write(text)
+
+def envValue(NAME,VALUE):
+    toConsole(f"ENV: {NAME} -> {VALUE}")

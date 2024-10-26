@@ -1,4 +1,5 @@
-import tokenManager, logger
+import auth.tokenManager as tokenManager
+import logger.logger as logger
 
 import pyttsx3
 

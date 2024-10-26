@@ -1,14 +1,9 @@
-__pycache__/
+*__pycache__/
 .env
 logs/
 commands.json
-vosk-model-it-0.22/
 
-video*.mp4
-image*.jpg
+data/stats.json
 
-tiktok.mp4
-audio.wav
-audio.ogg
-config.py
+src/temp/*
 test.py

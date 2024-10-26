@@ -8,13 +8,14 @@ from threading import Thread,Event
 from time import sleep
 
 # script
-import tokenManager
-import apiRequest
-import logger
-import telegramAction
-import voiceRecognizer
-import markupManager
-import textToSpeech
+import auth.tokenManager as tokenManager
+import utilities.apiRequest as apiRequest
+import logger.logger as logger
+import telegram.telegramAction as telegramAction
+import utilities.voiceRecognizer as voiceRecognizer
+import telegram.markupManager as markupManager
+import utilities.textToSpeech as textToSpeech
+import utilities.fileManager as fileManager
 
 BOT_TOKEN = tokenManager.read_bot_token()
 TIKTOK_API_TOKEN = tokenManager.read_tiktok_token()
@@ -37,15 +38,17 @@ LOCAL_API = False # by default is FALSE (TO-DO set local API directly on .env)
 
 if(str(CHAT_ID) != "-1"):
     
-    START_MESSAGE = open("tutorial", "r").read() # reads and return entire file
+    START_MESSAGE = open("data/tutorial", "r").read() # reads and return entire file
     message = bot.send_message(CHAT_ID,START_MESSAGE)
 
     logger.toConsole("Start message sended to "+CHAT_ID)
 
+
 # useless file clear
 
-voiceRecognizer.clear("tts.mp3")
-# da aggiungere altri alla lista
+logger.toConsole("Useless file cleaning...")
+exts = ["mp3","mp4","wav"]
+fileManager.clean_extensions(exts)
 logger.toConsole("File cleared!")
 
 # chat id check
@@ -337,7 +340,7 @@ def voice_handler(message):
             file = bot.get_file(file_id)
             download_file = bot.download_file(file.file_path)  # download file for processing
 
-            ogg_audio_path = "audio.ogg"
+            ogg_audio_path = "temp/audio.ogg"
 
             with open(f'{ogg_audio_path}', 'wb') as file:
                 file.write(download_file)
@@ -359,7 +362,7 @@ def voice_handler(message):
                 file = bot.get_file(file_id)
                 download_file = bot.download_file(file.file_path)  # download file for processing
 
-                mp4_audio_path = "video.mp4"
+                mp4_audio_path = "temp/video.mp4"
 
                 with open(f'{mp4_audio_path}', 'wb') as file:
                     file.write(download_file)
@@ -370,7 +373,7 @@ def voice_handler(message):
 
                 event.set()
                 animator.join()
-                bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)          
+                bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)       
             except:
                 try:
                     # file video_note
@@ -379,7 +382,7 @@ def voice_handler(message):
                     file = bot.get_file(file_id)
                     download_file = bot.download_file(file.file_path)  # download file for processing
 
-                    mp4_audio_path = "video.mp4"
+                    mp4_audio_path = "temp/video.mp4"
 
                     with open(f'{mp4_audio_path}', 'wb') as file:
                         file.write(download_file)
@@ -444,7 +447,7 @@ def tts_handler(message):
             # testo del messaggio
             text = text_message.text
 
-            mp3_audio_path = "tts.mp3"
+            mp3_audio_path = "temp/tts.mp3"
 
             textToSpeech.text_to_speech(text,mp3_audio_path)
             
@@ -496,7 +499,7 @@ def get_patchnotes(message):
         logger.command(message)
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
-        f = open("patchnotes", "r") # reads and return entire file
+        f = open("data/patchnotes", "r") # reads and return entire file
         bot.send_message(message.chat.id, f.read())
 
     except wrongChatID:
