@@ -68,5 +68,7 @@
     6) Possibilità di inizializzare il bot senza scaricare model per migliorare la velocità di esecuzione (sia per tts che per stt) con relativo messaggio di avviso
     7) Possibilità di inizializzare il bot senza api key delle varie api usate da RapidAPI sempre con relativo messaggio di avviso
     8) Cosa che mi è venuta in mente 5 minuti dopo aver committato: aggiungere un messaggio che stima il tempo di trascrizione di un messaggio (sostituito a quella specie di animazione che ho provato a fare con i puntini, quindi almeno con i secondi che scendono)
+    9) altre cose che mi vengono in mente dopo: 
+    10) a quanto pare le patchnotes ora sono anche troppo lunghe, quindi me tocca capire come fare a mandarle su telegram (probabilmente finirò per fare un messaggio splittato in tot caratteri e da cui potrai spostarti usando le freccettine dei markup, da vedere poi come studiarla sta roba dio povero)
 
     *EOF*
