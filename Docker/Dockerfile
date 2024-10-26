@@ -9,11 +9,11 @@ RUN apt update && apt install -y \
         wget \
         espeak
 
-COPY ../src/requirements.txt .
+COPY src/requirements.txt .
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ../src .
+COPY src .
 
 CMD ["python", "-u", "./main.py"]
