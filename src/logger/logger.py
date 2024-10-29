@@ -22,5 +22,11 @@ def command(message): # get all commands
 def toFile(text): # write to a log file
     fileLogger.write(text)
 
-def envValue(NAME,VALUE):
-    toConsole(f"ENV: {NAME} -> {VALUE}")
+def envValue(name,value):
+    toConsole(f"ENV: {name} -> {value}")
+
+def apiRequest(url,error):
+    if error == None:
+        toConsole(f"API: {url}")
+    else:
+        toConsole(f"API: {url} -> {error}")
