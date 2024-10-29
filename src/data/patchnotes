@@ -56,6 +56,13 @@
     2) Ottimizzazione del codice nella sezione tokenManager (colui che gestisce tutti i valori dentro il file .env) 
     3) RIMOSSO FILE config.py (utile solo nel debug), l'applicativo potra essere eseguito solo tramite Docker (in quanto richiede i valori delle variabili ambientali anche solo per partire, altrimenti ECCEZIONE)
     4) Ottimizzata anche la sezione di markupManager per la futura gestione di nuovi comandi per gestire le impostazioni del bot
+
+29/10/2024
+  
+  - Rework della logica di log delle informazioni (ancora da concludere, ma già a buon punto)
+  - Ottimizzazione del codice lato API request
+
+  -------------------------------------------------------------------
   
   - E con questo ci si prepare alla versione 1.2 che avrà: (predicto cosa penso riuscirò a fare) 
 
@@ -68,7 +75,12 @@
     6) Possibilità di inizializzare il bot senza scaricare model per migliorare la velocità di esecuzione (sia per tts che per stt) con relativo messaggio di avviso
     7) Possibilità di inizializzare il bot senza api key delle varie api usate da RapidAPI sempre con relativo messaggio di avviso
     8) Cosa che mi è venuta in mente 5 minuti dopo aver committato: aggiungere un messaggio che stima il tempo di trascrizione di un messaggio (sostituito a quella specie di animazione che ho provato a fare con i puntini, quindi almeno con i secondi che scendono)
-    9) altre cose che mi vengono in mente dopo: 
-    10) a quanto pare le patchnotes ora sono anche troppo lunghe, quindi me tocca capire come fare a mandarle su telegram (probabilmente finirò per fare un messaggio splittato in tot caratteri e da cui potrai spostarti usando le freccettine dei markup, da vedere poi come studiarla sta roba dio povero)
+    9) a quanto pare le patchnotes ora sono anche troppo lunghe, quindi me tocca capire come fare a mandarle su telegram (probabilmente finirò per fare un messaggio splittato in tot caratteri e da cui potrai spostarti usando le freccettine dei markup, da vedere poi come studiarla sta roba dio povero)
+
+    ALTRE COSE DA FARE:
+    sistema la sezione logger (relativo a comandi)
+    rivedi il sistema di log (per loggare TUTTI i comandi, in modo efficiente)
+    rivedi il sistema della ricezione dei comandi
+    rivedi le eccezioni (TUTTE) per printarne gli errori nel file log
 
     *EOF*
