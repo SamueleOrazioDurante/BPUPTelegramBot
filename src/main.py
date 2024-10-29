@@ -87,7 +87,7 @@ def tiktok_dl(message):
     try:
         chat_id_check(message)
 
-        logger.log(" (Tiktok) Richiesta di download: ",message)
+        logger.telegramMessage(" (Tiktok) Richiesta di download: ",message)
         url = message.text
 
         filename = "tiktok.mp4"
@@ -98,17 +98,17 @@ def tiktok_dl(message):
                 check_file_size(filename)
 
                 telegramAction.sendVideo(bot,message,filename)
-                logger.log(" (Tiktok) Video mandato!",message)
+                logger.telegramMessage(" (Tiktok) Video mandato!",message)
 
             except fileSizeTooBIG:
-                logger.error("fileSizeTooBig",message,True)
+                logger.telegramError("fileSizeTooBig",message)
                 bot.send_message(message.chat.id,"Video supera i 50 mb")
             
-        except Exception as e:
-            logger.error(str(e),message,True) 
+        except Exception:
+            logger.telegramError(str(Exception),message) 
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
 
 
 # tiktok quality manager
@@ -125,7 +125,7 @@ def setTiktokQuality(message):
         markupManager.markup_tiktok_quality(bot,message) # sends choices lists
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -134,7 +134,7 @@ def callback_data(call):
 
     if call.message:
         apiRequest.TIKTOK_QUALITY = call.data # changes quality based on callback data (choices answer)
-        logger.log("Qualità impostata a "+apiRequest.TIKTOK_QUALITY,call.message)
+        logger.telegramMessage("Qualità impostata a "+apiRequest.TIKTOK_QUALITY,call.message)
         bot.delete_message(call.message.chat.id, call.message.id) # delete choices lists
     
 @bot.message_handler(commands=['get_tiktok_quality', 'help'])
@@ -149,7 +149,7 @@ def getTiktokQuality(message):
         bot.send_message(message.chat.id, "Qualità attuale: "+apiRequest.TIKTOK_QUALITY)
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
 
 # twitter downloader
 
@@ -160,7 +160,7 @@ def twitter_ss(message):
 
         chat_id_check(message)
 
-        logger.log(" (Twitter) Richiesta di download: ",message)
+        logger.telegramMessage(" (Twitter) Richiesta di download: ",message)
 
         url = message.text
         
@@ -199,14 +199,14 @@ def twitter_ss(message):
                 telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
             
             bot.send_message(message.chat.id, text)
-            logger.log(" (Twitter) Download eseguito: ",message)
+            logger.telegramMessage(" (Twitter) Download eseguito: ",message)
             
-        except Exception as e:
+        except Exception:
             bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request")
-            logger.error(str(e),message,True)
+            logger.telegramError(str(Exception),message)
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
 
 def getImages(images):
     i = 0 
@@ -247,7 +247,7 @@ def instagram_ss(message):
 
         chat_id_check(message)
 
-        logger.log(" (Instagram) Richiesta di download: ",message)
+        logger.telegramMessage(" (Instagram) Richiesta di download: ",message)
 
         url = message.text
         
@@ -303,14 +303,14 @@ def instagram_ss(message):
             if text != "": # send caption only if there is one
                 bot.send_message(message.chat.id, text)
 
-            logger.log(" (Instagram) Download eseguito: ",message)
+            logger.telegramMessage(" (Instagram) Download eseguito: ",message)
             
-        except Exception as e:
+        except Exception:
            bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane")
-           logger.error(str(e),message,True)
+           logger.telegramError(str(Exception),message)
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
 
 # speech to text
 
@@ -347,7 +347,7 @@ def voice_handler(message):
 
             transcripted_text = voiceRecognizer.fromaudio_voice_recognizer(ogg_audio_path) 
 
-            logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
+            logger.telegramMessage("Speech to text eseguito! Testo: "+transcripted_text,message)
 
             event.set()
             animator.join()
@@ -369,7 +369,7 @@ def voice_handler(message):
 
                 transcripted_text = voiceRecognizer.fromvideo_voice_recognizer(mp4_audio_path) 
 
-                logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
+                logger.telegramMessage("Speech to text eseguito! Testo: "+transcripted_text,message)
 
                 event.set()
                 animator.join()
@@ -389,7 +389,7 @@ def voice_handler(message):
 
                     transcripted_text = voiceRecognizer.fromvideo_voice_recognizer(mp4_audio_path) 
 
-                    logger.log("Speech to text eseguito! Testo: "+transcripted_text,message)
+                    logger.telegramMessage("Speech to text eseguito! Testo: "+transcripted_text,message)
                     
                     event.set()
                     animator.join()
@@ -401,7 +401,7 @@ def voice_handler(message):
                     bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Errore. Formato non supportato!")
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
         pass
 
 def voice_text_reply_animator(response_message,event):
@@ -453,7 +453,7 @@ def tts_handler(message):
             
             bot.send_voice(text_message.chat.id, open(mp3_audio_path, 'rb'), reply_to_message_id=text_message.message_id)
                          
-            logger.log("Text to speech eseguito! Testo: "+text,message)
+            logger.telegramMessage("Text to speech eseguito! Testo: "+text,message)
             
             event.set()
             animator.join()
@@ -466,7 +466,7 @@ def tts_handler(message):
             bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Errore. Questo non mi sembra testo!")
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
         pass
 
 def text_voice_reply_animator(response_message,event):
@@ -503,7 +503,7 @@ def get_patchnotes(message):
         bot.send_message(message.chat.id, f.read())
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
         pass
 
 @bot.message_handler(commands=['logs', 'Ritorna gli ultimi log del bot'])
@@ -528,7 +528,7 @@ def get_latestlogs(message):
         bot.send_message(message.chat.id, logs)
 
     except wrongChatID:
-        logger.error("wrongChatID",message,True)
+        logger.telegramError("wrongChatID",message)
         pass
 
 logger.toConsole("---------------------------------------------------")

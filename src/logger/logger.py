@@ -3,24 +3,23 @@ import datetime
 
 import logger.fileLogger as fileLogger
 
+def toFile(text): # write to a log file
+    fileLogger.write(text)
+
 def toConsole(text): # print on console
     date = str(datetime.datetime.now())
     text = date + " - "+text
     print(text)
     toFile(text)
 
-def log(text,message): # get all messages
+def telegramMessage(text,message): # get all messages
     toConsole(f"{text} \n   MessageID: {message.id} \n   Message text: {message.text} \n   Message sender: {message.chat.username} \n   Chat ID: {message.chat.id}")
 
-def error(text,message,isError): # get all errors
-    if isError:
-        log(f"Errore: {text}",message)
+def telegramError(text,message):
+    telegramMessage(f"ERRORE: {text}",message)
 
-def command(message): # get all commands
+def command(message): # get all commands DA SISTEMATE
      log("Comando eseguito!",message)
-
-def toFile(text): # write to a log file
-    fileLogger.write(text)
 
 def envValue(name,value):
     toConsole(f"ENV: {name} -> {value}")
