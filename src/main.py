@@ -237,6 +237,9 @@ def getVideos(videos):
         i+=1
 
 # instagram downloader
+@bot.message_handler(regexp="https://www.instagram.com/p/")
+def instagram_p_ss(message):
+    instagram_ss(message)
 
 @bot.message_handler(regexp="https://www.instagram.com/reel/")
 
@@ -252,8 +255,11 @@ def instagram_ss(message):
         url = message.text
         
         try:
+            if tag = link[26:][:1] == "p":
+                reel_id = url[28:][:11]
+            else:
+                reel_id = url[31:][:11]
 
-            reel_id = url[31:][:11]
             post = apiRequest.InstaAPIRequest(INSTAGRAM_API_TOKEN,reel_id);
             
             # get description and varius images or videos of a post
