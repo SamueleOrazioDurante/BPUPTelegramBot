@@ -26,8 +26,8 @@ def voice_recognizer(wav_audio_path):
 
     try:
         text += pipe(wav_audio_path,generate_kwargs={"language": f"{language}"})["text"]
-    except Exception:
-        text = "Errore, riprova più tardi:"+ str(Exception)
+    except Exception as e:
+        text = "Errore, riprova più tardi:"+ str(e)
 
     clear(wav_audio_path)
     return text

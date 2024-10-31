@@ -104,8 +104,8 @@ def tiktok_dl(message):
                 logger.telegramError("fileSizeTooBig",message)
                 bot.send_message(message.chat.id,"Video supera i 50 mb")
             
-        except Exception:
-            logger.telegramError(str(Exception),message) 
+        except Exception as e:
+            logger.telegramError(str(e),message) 
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -201,9 +201,9 @@ def twitter_ss(message):
             bot.send_message(message.chat.id, text)
             logger.telegramMessage(" (Twitter) Download eseguito: ",message)
             
-        except Exception:
+        except Exception as e:
             bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request")
-            logger.telegramError(str(Exception),message)
+            logger.telegramError(str(e),message)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -311,9 +311,9 @@ def instagram_ss(message):
 
             logger.telegramMessage(" (Instagram) Download eseguito: ",message)
             
-        except Exception:
+        except Exception as e:
            bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane")
-           logger.telegramError(str(Exception),message)
+           logger.telegramError(str(e),message)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
