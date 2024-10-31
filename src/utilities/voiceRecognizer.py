@@ -24,12 +24,18 @@ def voice_recognizer(wav_audio_path):
 
     text = "Trascrizione: "
 
-    try:
-        text += pipe(wav_audio_path,generate_kwargs={"language": f"{language}"})["text"]
-    except Exception as e:
-        text = "Errore, riprova più tardi:"+ str(e)
+    segment_length = 30 * 1000  # 30 seconds in milliseconds
+    segments = [audio[i:i + segment_length] for i in range(0, len(audio), segment_length)]
+    
+    for segment in segments:
+        segment.export("temp/segment.wav", format="wav")
+        try:
+            result = pipe("temp/segment.wav", generate_kwargs={"language": f"{language}"})
+            text += result["text"]
 
-    clear(wav_audio_path)
+        except Exception as e:
+            return "Errore, riprova più tardi: " + str(e)
+    
     return text
 
 
