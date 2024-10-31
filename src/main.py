@@ -255,7 +255,7 @@ def instagram_ss(message):
         url = message.text
         
         try:
-            if tag = link[26:][:1] == "p":
+            if link[26:][:1] == "p":
                 reel_id = url[28:][:11]
             else:
                 reel_id = url[31:][:11]
