@@ -3,3 +3,4 @@ transformers
 torch
 pyttsx3
 pydub
+piper-tts

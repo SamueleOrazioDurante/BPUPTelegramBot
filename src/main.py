@@ -456,17 +456,17 @@ def tts_handler(message):
             # testo del messaggio
             text = text_message.text
 
-            mp3_audio_path = "temp/tts.mp3"
+            wav_audio_path = "temp/tts.wav"
 
-            textToSpeech.text_to_speech(text,mp3_audio_path)
+            textToSpeech.text_to_speech(text,wav_audio_path)
             
-            bot.send_voice(text_message.chat.id, open(mp3_audio_path, 'rb'), reply_to_message_id=text_message.message_id)
+            bot.send_voice(text_message.chat.id, open(wav_audio_path, 'rb'), reply_to_message_id=text_message.message_id)
                          
             logger.telegramMessage("Text to speech eseguito! Testo: "+text,message)
             
             event.set()
             animator.join()
-            voiceRecognizer.clear(mp3_audio_path)
+            voiceRecognizer.clear(wav_audio_path)
             bot.delete_message(response_message.chat.id, response_message.id) # delete reply message
 
         except:
