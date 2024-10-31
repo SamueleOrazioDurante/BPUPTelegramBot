@@ -12,11 +12,17 @@ tts_model_name="it_IT-paola-medium"
 # TEST, DOPO METTO UNA LISTA CON TUTTI I MODEL DISPONIBILI :D
 
 model = f"./model/tts/model.onnx"
+modeljson = f"./model/tts/model.onnx.json"
 
 url = 'https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/paola/medium/it_IT-paola-medium.onnx?download=true'
 r = requests.get(url, allow_redirects=True)
 
 open(model, 'wb').write(r.content)
+
+url2 = 'https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/paola/medium/it_IT-paola-medium.onnx.json?download=true'
+r2 = requests.get(url2, allow_redirects=True)
+
+open(modeljson, 'wb').write(r2.content)
 
 voice = PiperVoice.load(model)
 
