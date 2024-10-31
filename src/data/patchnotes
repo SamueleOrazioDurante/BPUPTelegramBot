@@ -62,6 +62,11 @@
   - Rework della logica di log delle informazioni (ancora da concludere, ma già a buon punto)
   - Ottimizzazione del codice lato API request
 
+31/10/2024
+
+  - Ulteriore modifica della logica dei log, con un'implementazione più accurata per l`ottenimento degli errori (che mi aiuta TANTO a debuggare, aiuto)
+  - Ottimizzazione del STT con segmentazione di audio in parti da 30 secondi l`uno (limite della pipeline), ora permette la trascrizione di messaggi di durata praticamente infinita
+
   -------------------------------------------------------------------
   
   - E con questo ci si prepare alla versione 1.2 che avrà: (predicto cosa penso riuscirò a fare) 
