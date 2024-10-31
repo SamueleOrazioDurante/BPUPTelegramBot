@@ -6,6 +6,7 @@ import os
 import subprocess
 
 from transformers import pipeline
+from pydub import AudioSegment
 
 model = tokenManager.get_model()
 language = tokenManager.get_language()
@@ -24,6 +25,7 @@ def voice_recognizer(wav_audio_path):
 
     text = "Trascrizione: "
 
+    audio = AudioSegment.from_wav(wav_audio_path)
     segment_length = 30 * 1000  # 30 seconds in milliseconds
     segments = [audio[i:i + segment_length] for i in range(0, len(audio), segment_length)]
     
