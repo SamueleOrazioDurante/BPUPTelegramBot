@@ -87,5 +87,6 @@
     rivedi il sistema di log (per loggare TUTTI i comandi, in modo efficiente)
     rivedi il sistema della ricezione dei comandi
     rivedi le eccezioni (TUTTE) per printarne gli errori nel file log
+    aggiungi data.ora.minuto.secondo.ms al nome di un file per renderlo unico ed evitare alcuni spiacevoli bug con la concorrenza (poi da eliminare anche il file alla fine dell`utilizzo, sopratutto audio + segment)
 
     *EOF*
