@@ -19,7 +19,7 @@ def telegramError(text,message):
     telegramMessage(f"ERRORE: {text}",message)
 
 def command(message): # get all commands DA SISTEMATE
-     log("Comando eseguito!",message)
+     telegramMessage("Comando eseguito!",message)
 
 def envValue(name,value):
     toConsole(f"ENV: {name} -> {value}")
