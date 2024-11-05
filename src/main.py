@@ -534,16 +534,7 @@ def get_latestlogs(message):
         stats.addCommand("logs",str(message.chat.username))
         logger.command(message)
 
-        logs = ""
-
-        with open("logs/log.txt") as file:   
-
-            for line in (file.readlines() [-75:]):
-                logs = logs + line    # reads and return last (max 75) rows of file
-                print("Line addedd"+logs)
-
-        if logs == "":  
-            logs = "No logs found (wtf even happen)"
+        logs = logger.getLogs()
 
         bot.send_message(message.chat.id, logs)
 

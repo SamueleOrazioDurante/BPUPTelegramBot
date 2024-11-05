@@ -32,3 +32,6 @@ def apiRequest(url,error):
 
 def stats(text):
     toConsole(f"STATS: {text}")
+
+def getLogs():
+    return fileLogger.getLogs()

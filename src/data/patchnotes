@@ -76,6 +76,8 @@
   
   - Aggiunto comando /stats per la visualizzazione delle statistiche (per ora fa solo un print del dict, appena ne avrò voglia mi metto a formattare i dati)
 
+  - Sistemata la questione del comando /logs non funzionante per via del messaggio troppo lungo (utilizzando un metodo strano che non ho idea di come funzioni e con variabili denominate a caso, poi lo sistemo, giuro)
+
   -------------------------------------------------------------------
   
   - E con questo ci si prepare alla versione 1.2 che avrà: (predicto cosa penso riuscirò a fare) 
