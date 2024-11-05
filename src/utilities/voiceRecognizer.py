@@ -53,7 +53,7 @@ def fromaudio_voice_recognizer(ogg_audio_path):
 
     wav_audio_path = "temp/audio.wav"
 
-    subprocess.run(['ffmpeg', '-i', f'{ogg_audio_path}', f'{wav_audio_path}', '-y'])  # formatting ogg file in to wav format
+    subprocess.run(['ffmpeg', '-i', f'{ogg_audio_path}', f'{wav_audio_path}', '-y', '-hide_banner', '-loglevel', 'error'])  # formatting ogg file in to wav format
 
     clear(ogg_audio_path)
     return voice_recognizer(wav_audio_path)
