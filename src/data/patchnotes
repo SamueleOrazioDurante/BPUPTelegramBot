@@ -100,11 +100,8 @@
     rivedi le eccezioni (TUTTE) per printarne gli errori nel file log
     aggiungi data.ora.minuto.secondo.ms al nome di un file per renderlo unico ed evitare alcuni spiacevoli bug con la concorrenza (poi da eliminare anche il file alla fine dell`utilizzo, sopratutto audio + segment)
 
-    Da sistemare bot
-
-1- Twitter:
+   Errore lato twitter
    ERRORE: iglob() missing 1 required positional argument: 'pathname' 
-2- Instagram 
-  2024-11-02 16:44:35.727526 - ERRORE: name 'link' is not defined
+
 
     *EOF*
