@@ -16,6 +16,7 @@ import utilities.voiceRecognizer as voiceRecognizer
 import telegram.markupManager as markupManager
 import utilities.textToSpeech as textToSpeech
 import utilities.fileManager as fileManager
+import utilities.statsManager as stats
 
 BOT_TOKEN = tokenManager.read_bot_token()
 TIKTOK_API_TOKEN = tokenManager.read_tiktok_token()
@@ -88,6 +89,7 @@ def tiktok_dl(message):
         chat_id_check(message)
 
         logger.telegramMessage(" (Tiktok) Richiesta di download: ",message)
+        stats.addAPIRequest("tiktok",str(message.chat.username))
         url = message.text
 
         filename = "tiktok.mp4"
@@ -160,6 +162,7 @@ def twitter_ss(message):
 
         chat_id_check(message)
 
+        stats.addAPIRequest("twitter",str(message.chat.username))
         logger.telegramMessage(" (Twitter) Richiesta di download: ",message)
 
         url = message.text
@@ -250,6 +253,7 @@ def instagram_ss(message):
 
         chat_id_check(message)
 
+        stats.addAPIRequest("instagram",str(message.chat.username))
         logger.telegramMessage(" (Instagram) Richiesta di download: ",message)
 
         url = message.text
@@ -327,7 +331,8 @@ def voice_handler(message):
     try:
     
         chat_id_check(message) # checking if group is authorized
-            
+        
+        stats.addCommand("totext",str(message.chat.username))
         logger.command(message)
 
         file_message = message.reply_to_message # get replied message
@@ -442,7 +447,9 @@ def tts_handler(message):
 
         chat_id_check(message)
 
+        stats.addCommand("tts",str(message.chat.username))
         logger.command(message)
+
         text_message = message.reply_to_message # get replied message
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
@@ -505,7 +512,9 @@ def get_patchnotes(message):
 
         chat_id_check(message)
 
+        stats.addCommand("patchnotes",str(message.chat.username))
         logger.command(message)
+
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
         f = open("data/patchnotes", "r") # reads and return entire file
@@ -521,6 +530,8 @@ def get_latestlogs(message):
     try:    
 
         chat_id_check(message)
+
+        stats.addCommand("logs",str(message.chat.username))
         logger.command(message)
 
         logs = ""

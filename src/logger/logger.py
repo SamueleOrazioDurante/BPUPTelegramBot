@@ -29,3 +29,6 @@ def apiRequest(url,error):
         toConsole(f"API: {url}")
     else:
         toConsole(f"API: {url} -> {error}")
+
+def stats(text):
+    toConsole(f"STATS: {text}")

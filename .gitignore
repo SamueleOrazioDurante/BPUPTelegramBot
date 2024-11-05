@@ -3,6 +3,6 @@
 logs/
 commands.json
 
-data/stats.json
+/stats/
 src/temp/*
 test.py

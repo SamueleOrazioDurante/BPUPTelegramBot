@@ -5,6 +5,7 @@ services:
       dockerfile: Docker/Dockerfile
     volumes:
        - ./logs:/usr/src/app/logs
+       - ./stats:/usr/src/app/data/stats
     env_file:
        - .env
     restart: unless-stopped

@@ -67,6 +67,13 @@
   - Ulteriore modifica della logica dei log, con un'implementazione più accurata per l`ottenimento degli errori (che mi aiuta TANTO a debuggare, aiuto)
   - Ottimizzazione del STT con segmentazione di audio in parti da 30 secondi l`uno (limite della pipeline), ora permette la trascrizione di messaggi di durata praticamente infinita
 
+05/11/2024
+
+  - Nuova funzione (ancora in fase di test, ma mi sembra funzionare anche troppo bene): statistiche di una chat salvati in un file json (non ancora visibili in chat). Dati che salva (contatore per ogni utente):
+    1) Numero di msg mandati
+    2) Numero di comandi usati
+    3) Numero di richieste effettuate all'API
+
   -------------------------------------------------------------------
   
   - E con questo ci si prepare alla versione 1.2 che avrà: (predicto cosa penso riuscirò a fare) 
