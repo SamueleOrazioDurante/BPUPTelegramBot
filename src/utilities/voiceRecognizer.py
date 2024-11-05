@@ -29,6 +29,7 @@ def voice_recognizer(wav_audio_path):
     segment_length = 30 * 1000  # 30 seconds in milliseconds
     segments = [audio[i:i + segment_length] for i in range(0, len(audio), segment_length)]
     
+    logger.toConsole("STT: Inizio trascrizione")
     for segment in segments:
         segment.export("temp/segment.wav", format="wav")
         try:
