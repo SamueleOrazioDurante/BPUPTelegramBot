@@ -73,6 +73,8 @@
     1) Numero di msg mandati
     2) Numero di comandi usati
     3) Numero di richieste effettuate all'API
+  
+  - Aggiunto comando /stats per la visualizzazione delle statistiche (per ora fa solo un print del dict, appena ne avrò voglia mi metto a formattare i dati)
 
   -------------------------------------------------------------------
   

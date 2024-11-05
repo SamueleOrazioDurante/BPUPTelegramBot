@@ -11,12 +11,14 @@ def init_dict():
     tts = {}
     patchnotes = {}
     logs = {}
+    stats = {}
 
     commands = {
         "totext":totext,
         "tts":tts,
         "patchnotes":patchnotes,
-        "logs":logs
+        "logs":logs,
+        "stats":stats
     }
 
     tiktok = {}
@@ -111,8 +113,18 @@ def addAPIRequest(social,username):
 def addCommand(command,username):
     updateDict("commands",command,username)
 
-
 def addMessage(username):
     updateDict("messages","easteregg??",username)
 
     
+def getStats():
+
+    text = "Riepilogo delle statistiche di utilizzo:"
+    text += str(stats_dict)
+    # sent messages
+
+    #messages = stats_dict["messages"]
+    #for username in messages:
+     #   text += username
+
+    return text

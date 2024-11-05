@@ -551,6 +551,26 @@ def get_latestlogs(message):
         logger.telegramError("wrongChatID",message)
         pass
 
+# print stats in a fantastic formatted message
+
+@bot.message_handler(commands=['stats', 'Vedi le statistiche di utilizzo'])
+def get_stats(message):
+    try:
+
+        chat_id_check(message)
+
+        stats.addCommand("stats",str(message.chat.username))
+        logger.command(message)
+
+        bot.delete_message(message.chat.id, message.id) # delete initial command
+
+        bot.send_message(message.chat.id, stats.getStats())
+
+    except wrongChatID:
+        logger.telegramError("wrongChatID",message)
+        pass
+
+
 
 # get every message sent (for statistic purpuse only)
 

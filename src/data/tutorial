@@ -5,6 +5,7 @@ COMMANDS:
     - /tts (use "answer" button on a text message with this command)
     - /patchnotes (see all updates timeline)
     - /logs (gets all [max 75 rows] of logs)
+    - /stats (get statistics of usage)
 
     DEV:
 
