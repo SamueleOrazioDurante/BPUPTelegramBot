@@ -3,7 +3,7 @@ import os
 temp_path = "temp/"
 if not os.path.exists(temp_path):
     os.makedirs(temp_path)
-    print("FILE: {path} dir created successfully!")
+    print(f"FILE: {path} dir created successfully!")
 
 def clear(file):
     # Remove unnecessary file
