@@ -13,7 +13,7 @@ def toConsole(text): # print on console
     toFile(text)
 
 def telegramMessage(text,message): # get all messages
-    toConsole(f"{text} \n   MessageID: {message.id} \n   Message text: {message.text} \n   Message sender: {message.chat.username} \n   Chat ID: {message.chat.id}")
+    toConsole(f"{text} \n   MessageID: {message.id} \n   Message text: {message.text} \n   Message sender: {message.from_user.username} \n   Chat ID: {message.chat.id}")
 
 def telegramError(text,message):
     telegramMessage(f"ERRORE: {text}",message)

@@ -86,7 +86,7 @@ def tiktok_dl(message):
         chat_id_check(message)
 
         logger.telegramMessage(" (Tiktok) Richiesta di download: ",message)
-        stats.addAPIRequest("tiktok",str(message.chat.username))
+        stats.addAPIRequest("tiktok",str(message.from_user.username))
         url = message.text
 
         filename = "tiktok.mp4"
@@ -164,7 +164,7 @@ def twitter_ss(message):
 
         chat_id_check(message)
 
-        stats.addAPIRequest("twitter",str(message.chat.username))
+        stats.addAPIRequest("twitter",str(message.from_user.username))
         logger.telegramMessage(" (Twitter) Richiesta di download: ",message)
 
         url = message.text
@@ -261,7 +261,7 @@ def instagram_ss(message):
 
         chat_id_check(message)
 
-        stats.addAPIRequest("instagram",str(message.chat.username))
+        stats.addAPIRequest("instagram",str(message.from_user.username))
         logger.telegramMessage(" (Instagram) Richiesta di download: ",message)
 
         url = message.text
@@ -346,7 +346,7 @@ def voice_handler(message):
     
         chat_id_check(message) # checking if group is authorized
         
-        stats.addCommand("totext",str(message.chat.username))
+        stats.addCommand("totext",str(message.from_user.username))
         logger.command(message)
 
         file_message = message.reply_to_message # get replied message
@@ -465,7 +465,7 @@ def tts_handler(message):
 
         chat_id_check(message)
 
-        stats.addCommand("tts",str(message.chat.username))
+        stats.addCommand("tts",str(message.from_user.username))
         logger.command(message)
 
         text_message = message.reply_to_message # get replied message
@@ -530,7 +530,7 @@ def get_patchnotes(message):
 
         chat_id_check(message)
 
-        stats.addCommand("patchnotes",str(message.chat.username))
+        stats.addCommand("patchnotes",str(message.from_user.username))
         logger.command(message)
 
         bot.delete_message(message.chat.id, message.id) # delete initial command
@@ -549,7 +549,7 @@ def get_latestlogs(message):
 
         chat_id_check(message)
 
-        stats.addCommand("logs",str(message.chat.username))
+        stats.addCommand("logs",str(message.from_user.username))
         logger.command(message)
 
         logs = logger.getLogs()
@@ -568,7 +568,7 @@ def get_stats(message):
 
         chat_id_check(message)
 
-        stats.addCommand("stats",str(message.chat.username))
+        stats.addCommand("stats",str(message.from_user.username))
         logger.command(message)
 
         bot.delete_message(message.chat.id, message.id) # delete initial command
@@ -585,7 +585,7 @@ def get_stats(message):
 
 @bot.message_handler(func=lambda message: True)
 def stats_text(message):
-    stats.addMessage(message.chat.username)
+    stats.addMessage(message.from_user.username)
 # questo metodo deve stare in fondo, altrimenti tutto il resto non funzia e si frega tutti i messaggi
 
 logger.toConsole("---------------------------------------------------")
