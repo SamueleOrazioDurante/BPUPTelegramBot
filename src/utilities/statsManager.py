@@ -113,6 +113,6 @@ def addCommand(command,username):
 
 
 def addMessage(username):
-    updateDict("messages",username)
+    updateDict("messages","easteregg??",username)
 
     

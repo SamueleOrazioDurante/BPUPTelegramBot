@@ -551,6 +551,14 @@ def get_latestlogs(message):
         logger.telegramError("wrongChatID",message)
         pass
 
+
+# get every message sent (for statistic purpuse only)
+
+@bot.message_handler(func=lambda message: True)
+def stats_text(message):
+    stats.addMessage(message.chat.username)
+# questo metodo deve stare in fondo, altrimenti tutto il resto non funzia e si frega tutti i messaggi
+
 logger.toConsole("---------------------------------------------------")
 logger.toConsole("Bot started!")
 
