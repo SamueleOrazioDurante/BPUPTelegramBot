@@ -31,14 +31,17 @@ def voice_recognizer(wav_audio_path):
     
     logger.toConsole("STT: Inizio trascrizione")
     for segment in segments:
-        segment.export("temp/segment.wav", format="wav")
+        segment_path = "temp/segment.wav"
+        segment.export(segment_path, format="wav")
         try:
-            result = pipe("temp/segment.wav", generate_kwargs={"language": f"{language}"})
+            result = pipe(segment_path, generate_kwargs={"language": f"{language}"})
             text += result["text"]
+            clear(segment_path)
 
         except Exception as e:
             return "Errore, riprova più tardi: " + str(e)
     
+    clear(wav_audio_path)
     return text
 
 
