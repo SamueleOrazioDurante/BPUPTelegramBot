@@ -19,9 +19,6 @@ import utilities.fileManager as fileManager
 import utilities.statsManager as stats
 
 BOT_TOKEN = tokenManager.read_bot_token()
-TIKTOK_API_TOKEN = tokenManager.read_tiktok_token()
-TWITTER_API_TOKEN = tokenManager.read_twitter_token()
-INSTAGRAM_API_TOKEN = tokenManager.read_instagram_token()
 CHAT_ID = tokenManager.read_chat_id()
 
 bot = telebot.TeleBot(BOT_TOKEN) # instance bot
@@ -94,18 +91,23 @@ def tiktok_dl(message):
 
         filename = "tiktok.mp4"
         try:
-            urllib.request.urlretrieve(apiRequest.TiktokAPIRequest(TIKTOK_API_TOKEN,url), filename)
-            
-            try:
-                check_file_size(filename)
+            link = apiRequest.TiktokAPIRequest(url)
 
-                telegramAction.sendVideo(bot,message,filename)
-                logger.telegramMessage(" (Tiktok) Video mandato!",message)
+            if not link == None:
+                urllib.request.urlretrieve(link, filename)
+                
+                try:
+                    check_file_size(filename)
 
-            except fileSizeTooBIG:
-                logger.telegramError("fileSizeTooBig",message)
-                bot.send_message(message.chat.id,"Video supera i 50 mb")
-            
+                    telegramAction.sendVideo(bot,message,filename)
+                    logger.telegramMessage(" (Tiktok) Video mandato!",message)
+
+                except fileSizeTooBIG:
+                    logger.telegramError("fileSizeTooBig",message)
+                    bot.send_message(message.chat.id,"Video supera i 50 mb")
+            else:
+                logger.apiRequest(link,"Tiktok API Key non impostata") 
+                bot.send_message(message.chat.id,"Tiktok API Key non impostata")
         except Exception as e:
             logger.telegramError(str(e),message) 
 
@@ -168,42 +170,48 @@ def twitter_ss(message):
         url = message.text
         
         try:
-
-            post = apiRequest.TweetAPIRequest(TWITTER_API_TOKEN,url);
             
-            # get description and varius images or videos of a post
-            text = post[0]
-            images = post[1]
-            videos = post[2]
+            post = apiRequest.TweetAPIRequest(url);
+            
+            if not post == None:
+                
+                # get description and varius images or videos of a post
+                text = post[0]
+                images = post[1]
+                videos = post[2]
 
-            # solo descrizione
-            if (len(images) == 0) & (len(videos) == 0):
-                exit
-            # solo 1 immagine
-            elif(len(images) == 1):
-                filename = "image.png"
-                urllib.request.urlretrieve(images[0], filename)
-                telegramAction.sendImage(bot,message,filename)
-            # solo 1 video
-            elif(len(videos) == 1):
-                filename = "video.mp4"
-                urllib.request.urlretrieve(videos[0], filename)
-                telegramAction.sendVideo(bot,message,filename)
-            # solo immagini
-            elif(len(videos)==0):
-                getImages(images)
-                telegramAction.sendMultipleImages(bot,message,len(images))
-            # solo video
-            elif(len(images)==0):
-                getVideos(videos)
-                telegramAction.sendMultipleVideos(bot,message,len(videos))
-            # misto tra immagini e video
+                # solo descrizione
+                if (len(images) == 0) & (len(videos) == 0):
+                    exit
+                # solo 1 immagine
+                elif(len(images) == 1):
+                    filename = "image.png"
+                    urllib.request.urlretrieve(images[0], filename)
+                    telegramAction.sendImage(bot,message,filename)
+                # solo 1 video
+                elif(len(videos) == 1):
+                    filename = "video.mp4"
+                    urllib.request.urlretrieve(videos[0], filename)
+                    telegramAction.sendVideo(bot,message,filename)
+                # solo immagini
+                elif(len(videos)==0):
+                    getImages(images)
+                    telegramAction.sendMultipleImages(bot,message,len(images))
+                # solo video
+                elif(len(images)==0):
+                    getVideos(videos)
+                    telegramAction.sendMultipleVideos(bot,message,len(videos))
+                # misto tra immagini e video
+                else:
+                    telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
+                
+                bot.send_message(message.chat.id, text)
+                logger.telegramMessage(" (Twitter) Download eseguito: ",message)
+            
             else:
-                telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
-            
-            bot.send_message(message.chat.id, text)
-            logger.telegramMessage(" (Twitter) Download eseguito: ",message)
-            
+                logger.apiRequest(post,"Twitter API Key non impostata") 
+                bot.send_message(message.chat.id,"Twitter API Key non impostata")
+        
         except Exception as e:
             bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request")
             logger.telegramError(str(e),message)
@@ -264,57 +272,63 @@ def instagram_ss(message):
             else:
                 reel_id = url[31:][:11]
 
-            post = apiRequest.InstaAPIRequest(INSTAGRAM_API_TOKEN,reel_id);
+            post = apiRequest.InstaAPIRequest(reel_id);
             
-            # get description and varius images or videos of a post
-            text = post[0]
-            images = post[1]
-            videos = post[2]
+            if not post == None:
 
-            # solo descrizione
-            if (len(images) == 0) & (len(videos) == 0):
-                pass
-            # solo 1 immagine
-            elif(len(images) == 1):
-                filename = "image.png"
-                logger.toConsole("Tentativo di dl (image): "+images[0])
+                # get description and varius images or videos of a post
+                text = post[0]
+                images = post[1]
+                videos = post[2]
 
-                opener = urllib.request.build_opener()
-                opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
-                urllib.request.install_opener(opener)
+                # solo descrizione
+                if (len(images) == 0) & (len(videos) == 0):
+                    pass
+                # solo 1 immagine
+                elif(len(images) == 1):
+                    filename = "image.png"
+                    logger.toConsole("Tentativo di dl (image): "+images[0])
 
-                urllib.request.urlretrieve(images[0], filename)
-                telegramAction.sendImage(bot,message,filename)
-            # solo 1 video
-            elif(len(videos) == 1):
-                filename = "video.mp4"
-                logger.toConsole("Tentativo di dl (video): "+videos[0])
+                    opener = urllib.request.build_opener()
+                    opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
+                    urllib.request.install_opener(opener)
 
-                opener = urllib.request.build_opener()
-                opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
-                urllib.request.install_opener(opener)
+                    urllib.request.urlretrieve(images[0], filename)
+                    telegramAction.sendImage(bot,message,filename)
+                # solo 1 video
+                elif(len(videos) == 1):
+                    filename = "video.mp4"
+                    logger.toConsole("Tentativo di dl (video): "+videos[0])
 
-                urllib.request.urlretrieve(videos[0], filename)
-                telegramAction.sendVideo(bot,message,filename)
-            # solo immagini
-            elif(len(videos)==0):
-                getImages(images)
-                telegramAction.sendMultipleImages(bot,message,len(images))
-            # solo video
-            elif(len(images)==0):
-                getVideos(videos)
-                telegramAction.sendMultipleVideos(bot,message,len(videos))
-            # misto tra immagini e video
+                    opener = urllib.request.build_opener()
+                    opener.addheaders = [('User-agent', 'Mozilla/5.0 (U; Linux i583 x86_64; en-US) Gecko/20100101 Firefox/63.0')]
+                    urllib.request.install_opener(opener)
+
+                    urllib.request.urlretrieve(videos[0], filename)
+                    telegramAction.sendVideo(bot,message,filename)
+                # solo immagini
+                elif(len(videos)==0):
+                    getImages(images)
+                    telegramAction.sendMultipleImages(bot,message,len(images))
+                # solo video
+                elif(len(images)==0):
+                    getVideos(videos)
+                    telegramAction.sendMultipleVideos(bot,message,len(videos))
+                # misto tra immagini e video
+                else:
+                    getImages(images)
+                    getVideos(videos)
+                    telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
+                
+                if text != "": # send caption only if there is one
+                    bot.send_message(message.chat.id, text)
+
+                logger.telegramMessage(" (Instagram) Download eseguito: ",message)
+            
             else:
-                getImages(images)
-                getVideos(videos)
-                telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
-            
-            if text != "": # send caption only if there is one
-                bot.send_message(message.chat.id, text)
+                logger.apiRequest(post,"Instagram API Key non impostata") 
+                bot.send_message(message.chat.id,"Instagram API Key non impostata")
 
-            logger.telegramMessage(" (Instagram) Download eseguito: ",message)
-            
         except Exception as e:
            bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane")
            logger.telegramError(str(e),message)
