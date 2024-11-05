@@ -44,7 +44,7 @@ def voice_recognizer(wav_audio_path):
 def fromvideo_voice_recognizer(mp4_audio_path):
 
     wav_audio_path = "temp/audio.wav"
-    subprocess.run(['ffmpeg', '-i', f'{mp4_audio_path}', '-vn','-acodec', 'pcm_s16le' , '-ar', '44100', '-ac', '2', f'{wav_audio_path}', '-y'])  # formatting mp4 file in to wav format
+    subprocess.run(['ffmpeg', '-i', f'{mp4_audio_path}', '-vn','-acodec', 'pcm_s16le' , '-ar', '44100', '-ac', '2', f'{wav_audio_path}', '-y', '-hide_banner', '-loglevel', 'error'])  # formatting mp4 file in to wav format
 
     clear(mp4_audio_path)
     return voice_recognizer(wav_audio_path)

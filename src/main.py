@@ -380,7 +380,8 @@ def voice_handler(message):
             bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)
 
         except Exception as e:
-            logger.toConsole("STT errore: "+str(e))
+            if not str(e) == "'NoneType' object has no attribute 'file_id'":
+                logger.toConsole("STT errore: "+str(e))
             try:
                 # file video
                 file_id = file_message.video.file_id 
@@ -400,8 +401,10 @@ def voice_handler(message):
                 event.set()
                 animator.join()
                 bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)       
+            
             except Exception as e:
-                logger.toConsole("STT errore: "+str(e))
+                if not str(e) == "'NoneType' object has no attribute 'file_id'":
+                    logger.toConsole("STT errore: "+str(e))
                 try:
                     # file video_note
                     file_id = file_message.video_note.file_id 
@@ -423,7 +426,8 @@ def voice_handler(message):
                     bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)     
 
                 except Exception as e:
-                    logger.toConsole("STT errore: "+str(e))
+                    if not str(e) == "'NoneType' object has no attribute 'file_id'":
+                        logger.toConsole("STT errore: "+str(e))
                     event.set()
                     animator.join()
                     bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Errore. Formato non supportato!")
