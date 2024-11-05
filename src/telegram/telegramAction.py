@@ -79,5 +79,5 @@ def garbage_cleaner(files):
     for jpgpath in glob.iglob(os.path.join(r"./", '*.jpg')):
         os.remove(jpgpath)
     
-    for mp4path in glob.iglob():
+    for mp4path in glob.iglob(os.path.join(r"./", '*.mp4')):
         os.remove(mp4path)

@@ -100,8 +100,4 @@
     rivedi le eccezioni (TUTTE) per printarne gli errori nel file log
     aggiungi data.ora.minuto.secondo.ms al nome di un file per renderlo unico ed evitare alcuni spiacevoli bug con la concorrenza (poi da eliminare anche il file alla fine dell`utilizzo, sopratutto audio + segment)
 
-   Errore lato twitter
-   ERRORE: iglob() missing 1 required positional argument: 'pathname' 
-
-
     *EOF*
