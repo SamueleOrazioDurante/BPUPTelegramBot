@@ -1,5 +1,7 @@
 # Telegram bot
 
+*PROGETTO ABBANDONATO* -> mi sto attualmente concetrando sull`uni e su BPUP Messanger :D
+
 NON AGGIORNATO
 
 Questo progetto contiene un bot di telegram scritto totalmente in python e predisposto per l'esecuzione in Docker.
