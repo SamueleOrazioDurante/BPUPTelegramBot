@@ -116,15 +116,23 @@ def addCommand(command,username):
 def addMessage(username):
     updateDict("messages","easteregg??",username)
 
+# Funzione per formattare i dati dinamicamente
+def format_data(data, indent=0):
+    formatted_output = ""
+    for key, value in data.items():
+        if isinstance(value, dict):  # Se il valore è un dizionario, esplora ricorsivamente
+            formatted_output += " " * indent + f"{key}:\n"
+            formatted_output += format_data(value, indent + 4)
+        else:  # Altrimenti, stampa la chiave e il valore
+            formatted_output += " " * indent + f"{key}: {value}\n"
+    return formatted_output
     
 def getStats():
 
-    text = "Riepilogo delle statistiche di utilizzo:"
-    text += str(stats_dict)
-    # sent messages
+    # Formattazione dinamica dei dati
+    formatted_data = format_data(stats_dict)
 
-    #messages = stats_dict["messages"]
-    #for username in messages:
-     #   text += username
+    text = "Riepilogo delle statistiche di utilizzo:"
+    text += formatted_data
 
     return text
