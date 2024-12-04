@@ -1,6 +1,7 @@
 # Telegram bot
 
 *PROGETTO ABBANDONATO* -> mi sto attualmente concetrando sull`uni e su BPUP Messanger :D
+anche se ogni tanto faccio dei mini fix a dei bug che trovo in giro
 
 NON AGGIORNATO
 
