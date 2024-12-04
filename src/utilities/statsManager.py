@@ -132,7 +132,7 @@ def getStats():
     # Formattazione dinamica dei dati
     formatted_data = format_data(stats_dict)
 
-    text = "Riepilogo delle statistiche di utilizzo:"
+    text = "Riepilogo delle statistiche di utilizzo:\n"
     text += formatted_data
 
     return text
