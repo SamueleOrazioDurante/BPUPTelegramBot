@@ -44,6 +44,6 @@ def get_model():
 
     return read_value("MODEL",False)
 
-def read_welcome_message()
+def read_welcome_message():
 
     return read_value("WELCOME_MESSAGE",False)
