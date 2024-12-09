@@ -35,11 +35,11 @@ LOCAL_API = False # by default is FALSE (TO-DO set local API directly on .env)
 # STARTING MESSAGE ON TELEGRAM (works only if a specific chat_id is set in the config.py or .env)
 
 if(str(CHAT_ID) != "-1"):
-    
-    START_MESSAGE = open("data/tutorial", "r").read() # reads and return entire file
-    message = bot.send_message(CHAT_ID,START_MESSAGE)
+    if(tokenManager.read_welcome_message())
+        START_MESSAGE = open("data/tutorial", "r").read() # reads and return entire file
+        message = bot.send_message(CHAT_ID,START_MESSAGE)
 
-    logger.toConsole("Start message sended to "+CHAT_ID)
+        logger.toConsole("Start message sended to "+CHAT_ID)
 
 
 # useless file clear
@@ -453,7 +453,7 @@ def voice_text_reply_animator(response_message,event):
         
         if event.is_set():
             break
-        sleep(3)
+        sleep(10)
 
 # text to speech
 

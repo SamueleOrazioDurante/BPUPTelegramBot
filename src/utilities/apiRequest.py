@@ -128,8 +128,8 @@ def InstaAPIRequest(reel_id):
 
             if child_medias_hd != None:
                 for item in child_medias_hd: 
-                    type = item["type"]
-                    url = item["url"]
+                    type = item['type']
+                    url = item['url']
                     if type == "image":
                         images.append(url)
                     if type == "video":
