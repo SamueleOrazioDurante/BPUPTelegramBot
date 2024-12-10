@@ -37,7 +37,7 @@ LOCAL_API = False # by default is FALSE (TO-DO set local API directly on .env)
 if(str(CHAT_ID) != "-1"):
     if(tokenManager.read_welcome_message() == True):
         START_MESSAGE = open("data/tutorial", "r").read() # reads and return entire file
-        message = bot.send_message(CHAT_ID,START_MESSAGE)
+        message = bot.send_message(CHAT_ID,START_MESSAGE,disable_notification=True)
 
         logger.toConsole("Start message sended to "+CHAT_ID)
 
@@ -104,10 +104,10 @@ def tiktok_dl(message):
 
                 except fileSizeTooBIG:
                     logger.telegramError("fileSizeTooBig",message)
-                    bot.send_message(message.chat.id,"Video supera i 50 mb")
+                    bot.send_message(message.chat.id,"Video supera i 50 mb",disable_notification=True)
             else:
                 logger.apiRequest(link,"Tiktok API Key non impostata") 
-                bot.send_message(message.chat.id,"Tiktok API Key non impostata")
+                bot.send_message(message.chat.id,"Tiktok API Key non impostata",disable_notification=True)
         except Exception as e:
             logger.telegramError(str(e),message) 
 
@@ -150,7 +150,7 @@ def getTiktokQuality(message):
         chat_id_check(message)
 
         logger.command(message)
-        bot.send_message(message.chat.id, "Qualità attuale: "+apiRequest.TIKTOK_QUALITY)
+        bot.send_message(message.chat.id, "Qualità attuale: "+apiRequest.TIKTOK_QUALITY,disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -205,15 +205,15 @@ def twitter_ss(message):
                 else:
                     telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
                 
-                bot.send_message(message.chat.id, text)
+                bot.send_message(message.chat.id, text,disable_notification=True)
                 logger.telegramMessage(" (Twitter) Download eseguito: ",message)
             
             else:
                 logger.apiRequest(post,"Twitter API Key non impostata") 
-                bot.send_message(message.chat.id,"Twitter API Key non impostata")
+                bot.send_message(message.chat.id,"Twitter API Key non impostata",disable_notification=True)
         
         except Exception as e:
-            bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request")
+            bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request",disable_notification=True)
             logger.telegramError(str(e),message)
 
     except wrongChatID:
@@ -321,16 +321,16 @@ def instagram_ss(message):
                     telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
                 
                 if text != "": # send caption only if there is one
-                    bot.send_message(message.chat.id, text)
+                    bot.send_message(message.chat.id, text,disable_notification=True)
 
                 logger.telegramMessage(" (Instagram) Download eseguito: ",message)
             
             else:
                 logger.apiRequest(post,"Instagram API Key non impostata") 
-                bot.send_message(message.chat.id,"Instagram API Key non impostata")
+                bot.send_message(message.chat.id,"Instagram API Key non impostata",disable_notification=True)
 
         except Exception as e:
-           bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane")
+           bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane",disable_notification=True)
            logger.telegramError(str(e),message)
 
     except wrongChatID:
@@ -352,7 +352,7 @@ def voice_handler(message):
         file_message = message.reply_to_message # get replied message
         bot.delete_message(message.chat.id, message.id) # delete initial command
         
-        response_message = bot.reply_to(file_message, 'Trascrizione in corso.') 
+        response_message = bot.reply_to(file_message, 'Trascrizione in corso.',disable_notification=True) 
 
         event = Event()
         animator = Thread(target=voice_text_reply_animator, args=(response_message,event,))
@@ -471,7 +471,7 @@ def tts_handler(message):
         text_message = message.reply_to_message # get replied message
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
-        response_message = bot.reply_to(text_message, 'Un secondo che devo parlare ai muri.') 
+        response_message = bot.reply_to(text_message, 'Un secondo che devo parlare ai muri.',disable_notification=True) 
 
         event = Event()
         animator = Thread(target=text_voice_reply_animator, args=(response_message,event,))
@@ -485,7 +485,7 @@ def tts_handler(message):
 
             textToSpeech.text_to_speech(text,wav_audio_path)
             
-            bot.send_voice(text_message.chat.id, open(wav_audio_path, 'rb'), reply_to_message_id=text_message.message_id)
+            bot.send_voice(text_message.chat.id, open(wav_audio_path, 'rb'), reply_to_message_id=text_message.message_id,disable_notification=True)
                          
             logger.telegramMessage("Text to speech eseguito! Testo: "+text,message)
             
@@ -536,7 +536,7 @@ def get_patchnotes(message):
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
         f = open("data/patchnotes", "r") # reads and return entire file
-        bot.send_message(message.chat.id, f.read())
+        bot.send_message(message.chat.id, f.read(),disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -554,7 +554,7 @@ def get_latestlogs(message):
 
         logs = logger.getLogs()
 
-        bot.send_message(message.chat.id, logs)
+        bot.send_message(message.chat.id, logs,disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -573,7 +573,7 @@ def get_stats(message):
 
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
-        bot.send_message(message.chat.id, stats.getStats())
+        bot.send_message(message.chat.id, stats.getStats(),disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
