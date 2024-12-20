@@ -4,6 +4,7 @@ import auth.tokenManager as tokenManager
 
 import requests
 import json
+import traceback
 
 TIKTOK_API_TOKEN = tokenManager.read_tiktok_token()
 TWITTER_API_TOKEN = tokenManager.read_twitter_token()
@@ -19,11 +20,11 @@ def apiRequest(APIUrl,headers,query):
         else:
             response = requests.get(APIUrl, headers=headers)
 
-        logger.apiResponse(APIUrl,json.dumps(response.json))
+        logger.apiResponse(APIUrl,str(response.json))
         return response.json()
 
     except Exception:
-        logger.apiRequest(APIUrl,str(Exception))
+        logger.apiRequest(APIUrl,str(traceback.format_exc()))
 
 
 TIKTOK_QUALITY = "hdplay" # default value (play,wmplay,hdplay)
