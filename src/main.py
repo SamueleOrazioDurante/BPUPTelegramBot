@@ -6,6 +6,7 @@ import os
 import urllib.request
 from threading import Thread,Event
 from time import sleep
+import traceback
 
 # script
 import auth.tokenManager as tokenManager
@@ -109,7 +110,7 @@ def tiktok_dl(message):
                 logger.apiRequest(link,"Tiktok API Key non impostata") 
                 bot.send_message(message.chat.id,"Tiktok API Key non impostata",disable_notification=True)
         except Exception as e:
-            logger.telegramError(str(e),message) 
+            logger.telegramError(str(traceback.format_exc()),message) 
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -213,7 +214,7 @@ def twitter_ss(message):
         
         except Exception as e:
             bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request",disable_notification=True)
-            logger.telegramError(str(e),message)
+            logger.telegramError(str(traceback.format_exc()),message)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -329,7 +330,7 @@ def instagram_ss(message):
 
         except Exception as e:
            bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane",disable_notification=True)
-           logger.telegramError(str(e),message)
+           logger.telegramError(str(traceback.format_exc()),message)
 
 
     except wrongChatID:
