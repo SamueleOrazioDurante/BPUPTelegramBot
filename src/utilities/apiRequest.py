@@ -3,6 +3,7 @@ import logger.logger as logger
 import auth.tokenManager as tokenManager
 
 import requests
+import json
 
 TIKTOK_API_TOKEN = tokenManager.read_tiktok_token()
 TWITTER_API_TOKEN = tokenManager.read_twitter_token()
@@ -18,7 +19,7 @@ def apiRequest(APIUrl,headers,query):
         else:
             response = requests.get(APIUrl, headers=headers)
 
-        logger.apiResponse(response)
+        logger.apiResponse(APIUrl,json.dumps(response))
         return response.json()
 
     except Exception:
@@ -67,9 +68,12 @@ def TweetAPIRequest(url):
 
         # array object which contain 3 object (description,images_array,videos_array)
 
+        images = []
+        videos = []
+        
         try:
             ### get images
-            images = []
+
             data = jsonTweet['media']['photo']
 
             if data != None:
@@ -77,7 +81,7 @@ def TweetAPIRequest(url):
                     images.append(item["url"])
 
             ### get videos
-            videos = []
+
             data = jsonTweet['media']['video']
 
             if data != None:
@@ -113,9 +117,10 @@ def InstaAPIRequest(reel_id):
 
     # json object contain a main media and an array of secondary media (all of them has a type [image,video])
 
+        images = []
+        videos = []
+
         try:
-            images = []
-            videos = []
 
             ### get main media
             
