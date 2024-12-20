@@ -32,8 +32,6 @@ LOCAL_API = False # by default is FALSE (TO-DO set local API directly on .env)
 #telebot.apihelper.API_URL = 'http://0.0.0.0:6969/bot{0}/{1}'
 #telebot.apihelper.FILE_URL = 'http://0.0.0.0:6969'
 
-TARGET_CHAT_ID = 6257742463
-
 # STARTING MESSAGE ON TELEGRAM (works only if a specific chat_id is set in the config.py or .env)
 
 if(str(CHAT_ID) != "-1"):
@@ -169,7 +167,7 @@ def twitter_ss(message):
         stats.addAPIRequest("twitter",str(message.from_user.username))
         logger.telegramMessage(" (Twitter) Richiesta di download: ",message)
         
-        """
+
         try:
             
             post = apiRequest.TweetAPIRequest(url)
@@ -216,9 +214,6 @@ def twitter_ss(message):
         except Exception as e:
             bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request",disable_notification=True)
             logger.telegramError(str(e),message)
-        """
-
-        bot.forward_message(chat_id=TARGET_CHAT_ID,from_chat_id=message.chat.id,message_id=message.message_id)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -269,7 +264,6 @@ def instagram_ss(message):
 
         url = message.text
         
-        """
         try:
             if url[26:][:1] == "p":
                 reel_id = url[28:][:11]
@@ -336,20 +330,10 @@ def instagram_ss(message):
         except Exception as e:
            bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane",disable_notification=True)
            logger.telegramError(str(e),message)
-        """
-        bot.forward_message(chat_id=TARGET_CHAT_ID,from_chat_id=message.chat.id,message_id=message.message_id)
+
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
-
-# forward response to main channel
-
-@bot.message_handler(func=lambda message: message.chat.id == int(TARGET_CHAT_ID))
-
-def send_back_response(message):
-
-    # Invia la risposta alla chat originale
-    bot.forward_message(chat_id=CHAT_ID,from_chat_id=message.chat.id,message_id=message.message_id)
 
 
 # speech to text
