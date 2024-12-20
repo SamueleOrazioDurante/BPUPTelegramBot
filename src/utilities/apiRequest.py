@@ -19,11 +19,11 @@ def apiRequest(APIUrl,headers,query):
         else:
             response = requests.get(APIUrl, headers=headers)
 
-        logger.apiResponse(APIUrl,json.dumps(response))
+        logger.apiResponse(APIUrl,json.dumps(response.json))
         return response.json()
 
     except Exception:
-        logger.apiRequest(APIUrl,Exception)
+        logger.apiRequest(APIUrl,str(Exception))
 
 
 TIKTOK_QUALITY = "hdplay" # default value (play,wmplay,hdplay)
@@ -70,7 +70,7 @@ def TweetAPIRequest(url):
 
         images = []
         videos = []
-        
+
         try:
             ### get images
 
