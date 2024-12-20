@@ -85,6 +85,8 @@ def TweetAPIRequest(url):
             #        videos.append(item["videoVariants"][0]["url"])
 
                 videos.append(jsonTweet['media']['video']['videoVariants'][0]['url'])
+        except:
+            pass
 
         post = [jsonTweet['description'],images,videos]
 
@@ -139,6 +141,8 @@ def InstaAPIRequest(reel_id):
                             videos.append(url)
             except:
                 pass
+        except:
+            pass
 
         post = [jsonReel['data']['caption'],images,videos]
 
