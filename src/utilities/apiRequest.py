@@ -18,6 +18,7 @@ def apiRequest(APIUrl,headers,query):
         else:
             response = requests.get(APIUrl, headers=headers)
 
+        logger.apiResponse(response)
         return response.json()
 
     except Exception:
@@ -66,23 +67,24 @@ def TweetAPIRequest(url):
 
         # array object which contain 3 object (description,images_array,videos_array)
 
-        ### get images
-        images = []
-        data = jsonTweet['media']['photo']
+        try:
+            ### get images
+            images = []
+            data = jsonTweet['media']['photo']
 
-        if data != None:
-            for item in data: 
-                images.append(item["url"])
+            if data != None:
+                for item in data: 
+                    images.append(item["url"])
 
-        ### get videos
-        videos = []
-        data = jsonTweet['media']['video']
+            ### get videos
+            videos = []
+            data = jsonTweet['media']['video']
 
-        if data != None:
-        #    for item in data: 
-        #        videos.append(item["videoVariants"][0]["url"])
+            if data != None:
+            #    for item in data: 
+            #        videos.append(item["videoVariants"][0]["url"])
 
-            videos.append(jsonTweet['media']['video']['videoVariants'][0]['url'])
+                videos.append(jsonTweet['media']['video']['videoVariants'][0]['url'])
 
         post = [jsonTweet['description'],images,videos]
 
@@ -109,33 +111,34 @@ def InstaAPIRequest(reel_id):
 
     # json object contain a main media and an array of secondary media (all of them has a type [image,video])
 
-        images = []
-        videos = []
-
-        ### get main media
-        
-        main_media = jsonReel['data']['main_media_hd'] 
-        main_media_type = jsonReel['data']['main_media_type']
-
-        if main_media_type == "image":
-            images.append(main_media)
-        if main_media_type == "video":
-            videos.append(main_media)
-
-        ### get secondary media
         try:
-            child_medias_hd = jsonReel['data']['child_medias_hd']
+            images = []
+            videos = []
 
-            if child_medias_hd != None:
-                for item in child_medias_hd: 
-                    type = item['type']
-                    url = item['url']
-                    if type == "image":
-                        images.append(url)
-                    if type == "video":
-                        videos.append(url)
-        except:
-            pass
+            ### get main media
+            
+            main_media = jsonReel['data']['main_media_hd'] 
+            main_media_type = jsonReel['data']['main_media_type']
+
+            if main_media_type == "image":
+                images.append(main_media)
+            if main_media_type == "video":
+                videos.append(main_media)
+
+            ### get secondary media
+            try:
+                child_medias_hd = jsonReel['data']['child_medias_hd']
+
+                if child_medias_hd != None:
+                    for item in child_medias_hd: 
+                        type = item['type']
+                        url = item['url']
+                        if type == "image":
+                            images.append(url)
+                        if type == "video":
+                            videos.append(url)
+            except:
+                pass
 
         post = [jsonReel['data']['caption'],images,videos]
 

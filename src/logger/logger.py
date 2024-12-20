@@ -30,6 +30,9 @@ def apiRequest(url,error):
     else:
         toConsole(f"API: {url} -> {error}")
 
+def apiResponse(type,response):
+    toConsole(f"API: {type} | Response: {response}")
+
 def stats(text):
     toConsole(f"STATS: {text}")
 
