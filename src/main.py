@@ -32,7 +32,7 @@ LOCAL_API = False # by default is FALSE (TO-DO set local API directly on .env)
 #telebot.apihelper.API_URL = 'http://0.0.0.0:6969/bot{0}/{1}'
 #telebot.apihelper.FILE_URL = 'http://0.0.0.0:6969'
 
-TARGET_CHAT_ID = ""
+TARGET_CHAT_ID = 6257742463
 
 # STARTING MESSAGE ON TELEGRAM (works only if a specific chat_id is set in the config.py or .env)
 
@@ -338,7 +338,7 @@ def instagram_ss(message):
            logger.telegramError(str(e),message)
         """
         bot.forward_message(chat_id=TARGET_CHAT_ID,from_chat_id=message.chat.id,message_id=message.message_id)
-        
+
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
 
