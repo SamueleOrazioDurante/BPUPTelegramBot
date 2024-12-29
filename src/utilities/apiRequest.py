@@ -20,7 +20,7 @@ def apiRequest(APIUrl,headers,query):
         else:
             response = requests.get(APIUrl, headers=headers)
 
-        logger.apiResponse(APIUrl,str(response.json))
+        logger.apiResponse(APIUrl,str(response.json()))
         return response.json()
 
     except Exception:

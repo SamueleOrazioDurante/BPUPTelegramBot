@@ -213,7 +213,7 @@ def twitter_ss(message):
                 bot.send_message(message.chat.id,"Twitter API Key non impostata",disable_notification=True)
         
         except Exception as e:
-            bot.send_message(message.chat.id, "Matteo basta fotterti tutte le api request",disable_notification=True)
+            bot.send_message(message.chat.id, "Nessun media trovato",disable_notification=True)
             logger.telegramError(str(traceback.format_exc()),message)
 
     except wrongChatID:
@@ -329,7 +329,7 @@ def instagram_ss(message):
                 bot.send_message(message.chat.id,"Instagram API Key non impostata",disable_notification=True)
 
         except Exception as e:
-           bot.send_message(message.chat.id, "Cosa cazzo è accaduto dio banane",disable_notification=True)
+           bot.send_message(message.chat.id, "Nessun media trovato",disable_notification=True)
            logger.telegramError(str(traceback.format_exc()),message)
 
 
