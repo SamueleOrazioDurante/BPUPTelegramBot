@@ -88,8 +88,8 @@ def TweetAPIRequest(url):
             if data != None:
             #    for item in data: 
             #        videos.append(item["videoVariants"][0]["url"])
-
-                videos.append(jsonTweet['media']['video']['videoVariants'][0]['url'])
+                
+                videos.append(jsonTweet['media']['video']['videoVariants'][1]['url'])
         except:
             pass
 
