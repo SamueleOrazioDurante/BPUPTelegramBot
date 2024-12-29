@@ -139,12 +139,12 @@ def InstaAPIRequest(reel_id):
 
             except:
                 pass
-                
+
         finally:
 
-        post = [jsonReel['data']['caption']['text'],images,videos]
+            post = [jsonReel['data']['caption']['text'],images,videos]
 
-        return post
+            return post
     
     else:
         return None
