@@ -171,6 +171,7 @@ def twitter_ss(message):
 
         try:
             
+            url = message.text
             post = apiRequest.TweetAPIRequest(url)
             
             if not post == None:
