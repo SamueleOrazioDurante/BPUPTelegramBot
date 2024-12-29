@@ -53,7 +53,7 @@ def TiktokAPIRequest(url):
 def TweetAPIRequest(url):
     
     if not TWITTER_API_TOKEN == None:
-        APIUrl = "https://twitter-downloader-download-twitter-videos-gifs-and-images.p.rapidapi.com/status"
+        APIUrl = "https://twitter-downloader-download-twitter-videos-gifs-and-images.p.rapidapi.com/tweetgrab"
 
         headers = {
             "x-rapidapi-key": TWITTER_API_TOKEN,
