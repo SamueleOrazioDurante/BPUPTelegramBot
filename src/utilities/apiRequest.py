@@ -122,28 +122,25 @@ def InstaAPIRequest(reel_id):
         images = []
         videos = []
 
+        ### get main media
+
+        # video first
         try:
 
-            ### get main media
-
-            # video first
-            try:
-
-                video = jsonReel['data']['video_url'] 
-                videos.append(video)
-
-            except:
-                # then image
-                try:
-
-                    image = jsonReel['data']['image_versions']['item'][0]['url']
-                    images.append(video)
-
-                except:
-                    pass
+            video = jsonReel['data']['video_url'] 
+            videos.append(video)
 
         except:
-            pass
+            # then image
+            try:
+
+                image = jsonReel['data']['image_versions']['item'][0]['url']
+                images.append(video)
+
+            except:
+                pass
+                
+        finally:
 
         post = [jsonReel['data']['caption']['text'],images,videos]
 
