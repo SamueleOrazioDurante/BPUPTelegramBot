@@ -1,7 +1,5 @@
 *PROGETTO ABBANDONATO* -> mi sto attualmente concetrando sull`uni e sulla'app di messagistica :D
 anche se ogni tanto faccio dei mini fix a dei bug che trovo in giro
-Below is a comprehensive, bilingual (English and Italian) documentation draft for the BPUPTelegramBot repository. You can copy the content into a README.md file in your repository. Adjust details as needed to reflect your project’s specifics.
-
 ---
 
 # BPUPTelegramBot Documentation
