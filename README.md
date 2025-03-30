@@ -1,23 +1,178 @@
-# Telegram bot
-
-*PROGETTO ABBANDONATO* -> mi sto attualmente concetrando sull`uni e su BPUP Messanger :D
+*PROGETTO ABBANDONATO* -> mi sto attualmente concetrando sull`uni e sulla'app di messagistica :D
 anche se ogni tanto faccio dei mini fix a dei bug che trovo in giro
+Below is a comprehensive, bilingual (English and Italian) documentation draft for the BPUPTelegramBot repository. You can copy the content into a README.md file in your repository. Adjust details as needed to reflect your project’s specifics.
 
-NON AGGIORNATO
+---
 
-Questo progetto contiene un bot di telegram scritto totalmente in python e predisposto per l'esecuzione in Docker.
-Utilizzato per un gruppo privato. 
+# BPUPTelegramBot Documentation
 
-# Feature
-Tiktok Video Download
+## Table of Contents
 
-X (Twitter) Post Download
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Features](#features)
+- [Documentazione in Italiano](#documentazione-in-italiano)
 
-Speech to text tramite comando /totext in risposta ad un messaggio audio
+---
+
+## Introduction
+  
+BPUPTelegramBot is a Telegram bot designed to streamline interactions on Telegram by offering automated commands, notifications, and additional functionalities. Built with simplicity and flexibility in mind, this bot can be easily extended and customized to suit a variety of needs.
+
+**Key aspects include:**  
+- Lightweight and modular design  
+- Easy installation and configuration  
+- Ready-to-use commands and functionality  
+
+---
+
+## Installation
+  
+To install BPUPTelegramBot, follow these steps:
+
+1. **Clone the Repository:**  
+   ```bash
+   git clone https://github.com/SamueleOrazioDurante/BPUPTelegramBot.git
+   cd BPUPTelegramBot
+   ```
+
+2. **Install Dependencies:**  
+   Ensure you have Python (3.6+) installed. Then, install required libraries:  
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Set Up Your Bot:**  
+   Obtain a Telegram Bot token from [BotFather](https://t.me/BotFather) and add it to your configuration file or environment variables.
+
+4. **Run the Bot:**  
+   Start the bot by running:
+   ```bash
+   python bot.py
+   ```
+
+---
+
+## Configuration
+
+- **Environment Variables:**  
+  Set your bot token and any other necessary configuration (e.g., admin IDs, command prefixes) in your environment or in a configuration file (e.g., `config.json`).
+
+- **Customization:**  
+  Modify the command handlers in the codebase to add new functionalities or alter existing commands.
+
+---
+
+## Usage
+
+After installation, invite your bot to a Telegram chat or group. Use the following commands to interact:
+
+- `/start` – Initializes the bot and displays a welcome message.  
+- `/help` – Shows available commands and usage instructions.  
+- *Other commands* – Refer to the source code and configuration for further command details.
+
+You can also extend the functionality by creating new command modules as described in the code documentation.
+
+---
+
+## Features
+
+- **Automated Command Handling:**  
+  Simplify common tasks with ready-to-use commands.
+- **Modular Design:**  
+  Easily extend or modify the bot’s functionality by adding or editing modules.
+- **Notification System:**  
+  Configurable notifications for events, reminders, or updates.
+- **Customizable Settings:**  
+  Change command prefixes, access controls, and other parameters with minimal effort.
+
+## Documentazione in Italiano
+
+### Indice
+
+- [Introduzione](#introduzione)
+- [Installazione](#installazione)
+- [Configurazione](#configurazione)
+- [Utilizzo](#utilizzo)
+- [Caratteristiche](#caratteristiche)
+
+---
+
+### Introduzione
+
+BPUPTelegramBot è un bot per Telegram progettato per semplificare le interazioni tramite comandi automatici, notifiche e funzionalità aggiuntive. Realizzato con un’architettura modulare e flessibile, il bot è facilmente personalizzabile per adattarsi a diverse esigenze.
+
+**Aspetti chiave:**  
+- Design leggero e modulare  
+- Installazione e configurazione semplici  
+- Comandi pronti all’uso e funzionalità estendibili
+
+---
+
+### Installazione
+
+Per installare BPUPTelegramBot, segui questi passaggi:
+
+1. **Clona il Repository:**  
+   ```bash
+   git clone https://github.com/SamueleOrazioDurante/BPUPTelegramBot.git
+   cd BPUPTelegramBot
+   ```
+
+2. **Installa le Dipendenze:**  
+   Assicurati di avere Python (3.6+) installato, poi installa le librerie necessarie:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configura il Bot:**  
+   Ottieni un token per il bot da [BotFather](https://t.me/BotFather) e aggiungilo alle variabili d’ambiente o nel file di configurazione.
+
+4. **Avvia il Bot:**  
+   Esegui il bot con:
+   ```bash
+   python bot.py
+   ```
+
+---
+
+### Configurazione
+  
+- **Variabili d’Ambiente:**  
+  Imposta il token del bot e altre configurazioni necessarie (es. ID degli admin, prefissi dei comandi) tramite variabili d’ambiente o in un file di configurazione (ad esempio `config.json`).
+
+- **Personalizzazione:**  
+  Modifica i gestori dei comandi nel codice per aggiungere nuove funzionalità o modificare quelle esistenti.
+
+---
+
+### Utilizzo
+
+Una volta installato, invita il bot in una chat o in un gruppo Telegram. Utilizza i seguenti comandi per interagire:
+
+- `/start` – Avvia il bot e mostra un messaggio di benvenuto.  
+- `/help` – Mostra i comandi disponibili e le istruzioni d’uso.  
+- *Altri comandi* – Consulta il codice sorgente e la configurazione per ulteriori dettagli sui comandi.
+
+È possibile estendere le funzionalità creando nuovi moduli per i comandi come descritto nella documentazione del codice.
+
+---
+
+### Caratteristiche
+
+- **Gestione Automatica dei Comandi:**  
+  Semplifica le attività comuni grazie a comandi pronti all’uso.
+- **Design Modulare:**  
+  Facilmente estendibile o modificabile aggiungendo o editando moduli.
+- **Sistema di Notifiche:**  
+  Notifiche configurabili per eventi, promemoria o aggiornamenti.
+- **Impostazioni Personalizzabili:**  
+  Cambia prefissi dei comandi, controlli di accesso e altri parametri con facilità.
 
 
-Comandi a caso
-
+OLD DOCS:
 
 TODS:
 
