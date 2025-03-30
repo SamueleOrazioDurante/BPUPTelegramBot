@@ -56,7 +56,7 @@ To install BPUPTelegramBot, follow these steps:
 ## Configuration
 
 - **Environment Variables:**  
-  Set your bot token and any other necessary configuration (e.g., admin IDs, command prefixes) in your environment or in a configuration file (e.g., `config.json`).
+  Set your bot token and any other necessary configuration (e.g., admin IDs, command prefixes) in your environment or in a configuration file (e.g., `.env`).
 
 - **Customization:**  
   Modify the command handlers in the codebase to add new functionalities or alter existing commands.
@@ -139,7 +139,7 @@ Per installare BPUPTelegramBot, segui questi passaggi:
 ### Configurazione
   
 - **Variabili d’Ambiente:**  
-  Imposta il token del bot e altre configurazioni necessarie (es. ID degli admin, prefissi dei comandi) tramite variabili d’ambiente o in un file di configurazione (ad esempio `config.json`).
+  Imposta il token del bot e altre configurazioni necessarie (es. ID degli admin, prefissi dei comandi) tramite variabili d’ambiente o in un file di configurazione (ad esempio `.env`).
 
 - **Personalizzazione:**  
   Modifica i gestori dei comandi nel codice per aggiungere nuove funzionalità o modificare quelle esistenti.
