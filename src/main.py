@@ -13,7 +13,10 @@ import auth.tokenManager as tokenManager
 import utilities.apiRequest as apiRequest
 import logger.logger as logger
 import telegram.telegramAction as telegramAction
-import utilities.voiceRecognizer as voiceRecognizer
+if(tokenManager.read_stt_type() == "WHISPER"):
+    import utilities.whisper as voiceRecognizer
+else:
+    import utilities.vosk as voiceRecognizer
 import telegram.markupManager as markupManager
 import utilities.textToSpeech as textToSpeech
 import utilities.fileManager as fileManager
@@ -341,111 +344,91 @@ def instagram_ss(message):
 # speech to text
 
 @bot.message_handler(commands=['totext', 'totext'])
-
 def voice_handler(message):
-    
     try:
-    
-        chat_id_check(message) # checking if group is authorized
+        chat_id_check(message)
         
-        stats.addCommand("totext",str(message.from_user.username))
+        stats.addCommand("totext", str(message.from_user.username))
         logger.command(message)
 
-        file_message = message.reply_to_message # get replied message
-        bot.delete_message(message.chat.id, message.id) # delete initial command
+        file_message = message.reply_to_message
+        bot.delete_message(message.chat.id, message.id)
         
-        response_message = bot.reply_to(file_message, 'Trascrizione in corso.',disable_notification=True) 
-
-        event = Event()
-        animator = Thread(target=voice_text_reply_animator, args=(response_message,event,))
-        animator.start()
-
+        # Invia un messaggio per indicare che la richiesta è in coda
+        queue_status = voiceRecognizer.get_queue_status()
+        position = queue_status["position"] + 1  # +1 per includere questa richiesta
+        
+        initial_message = f"Richiesta in coda. Posizione: {position}" if position > 0 else "In corso..."
+        response_message = bot.reply_to(file_message, initial_message, disable_notification=True)
+        
+        # Callback che verrà chiamata quando la trascrizione è completata
+        def transcription_complete(result):
+            bot.edit_message_text(chat_id=response_message.chat.id, 
+                                 message_id=response_message.message_id, 
+                                 text=result)
+            logger.telegramMessage("Speech to text completato! Testo: " + result, message)
+        
         try:
-            # file audio
-            file_id = file_message.voice.file_id 
-
-            file = bot.get_file(file_id)
-            download_file = bot.download_file(file.file_path)  # download file for processing
-
-            ogg_audio_path = "temp/audio.ogg"
-
-            with open(f'{ogg_audio_path}', 'wb') as file:
-                file.write(download_file)
-
-            transcripted_text = voiceRecognizer.fromaudio_voice_recognizer(ogg_audio_path) 
-
-            logger.telegramMessage("Speech to text eseguito! Testo: "+transcripted_text,message)
-
-            event.set()
-            animator.join()
-
-            bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)
-
-        except Exception as e:
-            if not str(e) == "'NoneType' object has no attribute 'file_id'":
-                logger.toConsole("STT errore: "+str(e))
-            try:
-                # file video
-                file_id = file_message.video.file_id 
-
+            # File audio
+            if hasattr(file_message, 'voice') and file_message.voice:
+                file_id = file_message.voice.file_id
                 file = bot.get_file(file_id)
-                download_file = bot.download_file(file.file_path)  # download file for processing
-
-                mp4_audio_path = "temp/video.mp4"
-
-                with open(f'{mp4_audio_path}', 'wb') as file:
+                download_file = bot.download_file(file.file_path)
+                
+                ogg_audio_path = f"temp/audio_{message.id}.ogg"
+                with open(ogg_audio_path, 'wb') as file:
                     file.write(download_file)
-
-                transcripted_text = voiceRecognizer.fromvideo_voice_recognizer(mp4_audio_path) 
-
-                logger.telegramMessage("Speech to text eseguito! Testo: "+transcripted_text,message)
-
-                event.set()
-                animator.join()
-                bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)       
+                
+                # Aggiunge alla coda invece di elaborare immediatamente
+                voiceRecognizer.queue_transcription_request(ogg_audio_path, "audio", transcription_complete)
+                
+            # File video
+            elif hasattr(file_message, 'video') and file_message.video:
+                file_id = file_message.video.file_id
+                file = bot.get_file(file_id)
+                download_file = bot.download_file(file.file_path)
+                
+                mp4_audio_path = f"temp/video_{message.id}.mp4"
+                with open(mp4_audio_path, 'wb') as file:
+                    file.write(download_file)
+                
+                voiceRecognizer.queue_transcription_request(mp4_audio_path, "video", transcription_complete)
+                
+            # File video_note
+            elif hasattr(file_message, 'video_note') and file_message.video_note:
+                file_id = file_message.video_note.file_id
+                file = bot.get_file(file_id)
+                download_file = bot.download_file(file.file_path)
+                
+                mp4_audio_path = f"temp/video_{message.id}.mp4"
+                with open(mp4_audio_path, 'wb') as file:
+                    file.write(download_file)
+                
+                voiceRecognizer.queue_transcription_request(mp4_audio_path, "video", transcription_complete)
+                
+            else:
+                bot.edit_message_text(chat_id=response_message.chat.id, 
+                                     message_id=response_message.message_id, 
+                                     text="Errore. Formato non supportato!")
+                
+        except Exception as e:
+            logger.toConsole(f"STT errore: {str(e)}")
+            bot.edit_message_text(chat_id=response_message.chat.id, 
+                                 message_id=response_message.message_id, 
+                                 text=f"Errore: {str(e)}")
             
-            except Exception as e:
-                if not str(e) == "'NoneType' object has no attribute 'file_id'":
-                    logger.toConsole("STT errore: "+str(e))
-                try:
-                    # file video_note
-                    file_id = file_message.video_note.file_id 
-
-                    file = bot.get_file(file_id)
-                    download_file = bot.download_file(file.file_path)  # download file for processing
-
-                    mp4_audio_path = "temp/video.mp4"
-
-                    with open(f'{mp4_audio_path}', 'wb') as file:
-                        file.write(download_file)
-
-                    transcripted_text = voiceRecognizer.fromvideo_voice_recognizer(mp4_audio_path) 
-
-                    logger.telegramMessage("Speech to text eseguito! Testo: "+transcripted_text,message)
-                    
-                    event.set()
-                    animator.join()
-                    bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=transcripted_text)     
-
-                except Exception as e:
-                    if not str(e) == "'NoneType' object has no attribute 'file_id'":
-                        logger.toConsole("STT errore: "+str(e))
-                    event.set()
-                    animator.join()
-                    bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text="Errore. Formato non supportato!")
-
     except wrongChatID:
-        logger.telegramError("wrongChatID",message)
+        logger.telegramError("wrongChatID", message)
         pass
 
 def voice_text_reply_animator(response_message,event):
 
-    text = "Trascrizione in corso.."
+    text = "In corso.."
     counter = 0
     while True:
         
         if counter == 5:
-            text = "Trascrizione in corso."
+            text = "In corso."
             counter = 0
 
         bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=text)

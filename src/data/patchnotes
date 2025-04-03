@@ -77,3 +77,10 @@
   - Aggiunto comando /stats per la visualizzazione delle statistiche (per ora fa solo un print del dict, appena ne avrò voglia mi metto a formattare i dati)
 
   - Sistemata la questione del comando /logs non funzionante per via del messaggio troppo lungo (utilizzando un metodo strano che non ho idea di come funzioni e con variabili denominate a caso, poi lo sistemo, giuro)
+
+03/04/2025
+
+Mai mi sarei di tornare su sto bot, soprattuto al mio compleanno, ma ehy, nuove feature richieste:
+
+  1) Ora è possibile selezionare VOSK come model type, trascrizioni molto veloci ma poco precise, quindi mi sa che si rimane con amichetto whisper
+  2) Ora i messaggi vocali/video chiamati col /totext vengono messi in una coda e trascritti uno ad uno senza far crashare il bot

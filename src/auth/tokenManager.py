@@ -47,3 +47,7 @@ def get_model():
 def read_welcome_message():
 
     return read_value("WELCOME_MESSAGE",False)
+
+def read_stt_type():
+
+    return read_value("TYPE",False)
