@@ -15,8 +15,10 @@ import logger.logger as logger
 import telegram.telegramAction as telegramAction
 if(tokenManager.read_stt_type() == "WHISPER"):
     import utilities.whisper as voiceRecognizer
-else:
+elif(tokenManager.read_stt_type() == "VOSK"):
     import utilities.vosk as voiceRecognizer
+else:
+    import utilities.whisperx as voiceRecognizer
 import telegram.markupManager as markupManager
 import utilities.textToSpeech as textToSpeech
 import utilities.fileManager as fileManager

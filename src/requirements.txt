@@ -6,3 +6,4 @@ pydub
 piper-tts
 vosk
 requests
+whisperx
