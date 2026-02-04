@@ -1,5 +1,6 @@
-
 import telebot # telegram bot manager
+
+from groq import Groq # IA LLM
 
 # general utilities
 import os
@@ -27,6 +28,18 @@ import utilities.statsManager as stats
 BOT_TOKEN = tokenManager.read_bot_token()
 CHAT_ID = tokenManager.read_chat_id()
 
+def send_long_message(bot, chat_id, text, disable_notification=True, reply_to_message_id=None):
+    max_len = 4096
+    for i in range(0, len(text), max_len):
+        chunk = text[i:i + max_len]
+        bot.send_message(chat_id, chunk, disable_notification=disable_notification, reply_to_message_id=reply_to_message_id)
+
+def clean_think_tags(text):
+    import re
+    # Remove <think> ... </think> blocks
+    text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL)
+    return text.strip()
+
 bot = telebot.TeleBot(BOT_TOKEN) # instance bot
 
 # extra config for using local telegram API
@@ -43,10 +56,19 @@ LOCAL_API = False # by default is FALSE (TO-DO set local API directly on .env)
 if(str(CHAT_ID) != "-1"):
     if(tokenManager.read_welcome_message() == True):
         START_MESSAGE = open("data/tutorial", "r").read() # reads and return entire file
-        message = bot.send_message(CHAT_ID,START_MESSAGE,disable_notification=True)
+        send_long_message(bot, CHAT_ID, START_MESSAGE, disable_notification=True)
 
         logger.toConsole("Start message sended to "+CHAT_ID)
 
+# IA Client Init
+if tokenManager.read_groq_api_key() == None:
+    client = None
+    logger.toConsole("IA LLM Groq client not initialized. GROQ_API_KEY not provided.")
+else:
+    client = Groq(
+        api_key=tokenManager.read_groq_api_key()
+    )
+    logger.toConsole("IA LLM Groq client initialized.")
 
 # useless file clear
 
@@ -211,7 +233,7 @@ def twitter_ss(message):
                 else:
                     telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
                 
-                bot.send_message(message.chat.id, text,disable_notification=True)
+                send_long_message(bot, message.chat.id, text, disable_notification=True)
                 logger.telegramMessage(" (Twitter) Download eseguito: ",message)
             
             else:
@@ -326,7 +348,7 @@ def instagram_ss(message):
                     telegramAction.sendMultipleImagesVideos(bot,message,len(images),len(videos))
                 
                 if text != "": # send caption only if there is one
-                    bot.send_message(message.chat.id, text,disable_notification=True)
+                    send_long_message(bot, message.chat.id, text, disable_notification=True)
 
                 logger.telegramMessage(" (Instagram) Download eseguito: ",message)
             
@@ -509,6 +531,74 @@ def text_voice_reply_animator(response_message,event):
             break
         sleep(3)
 
+@bot.message_handler(commands=['ask', 'Chat with IA LLM'])
+def ask_llm_handler(message):
+    try:    
+
+        chat_id_check(message)
+
+        stats.addCommand("ask",str(message.from_user.username))
+        logger.command(message)
+
+        text_message = message.reply_to_message # get replied message
+        bot.delete_message(message.chat.id, message.id) # delete initial command
+
+        if client is None:
+            if text_message:
+                send_long_message(bot, text_message.chat.id, "GROQ_API_KEY non impostata nel file .env", disable_notification=True, reply_to_message_id=text_message.message_id)
+            else:
+                send_long_message(bot, message.chat.id, "GROQ_API_KEY non impostata nel file .env", disable_notification=True)
+            return
+            
+        if text_message:
+            response_message = bot.reply_to(text_message, 'Chiedendo a groq...',disable_notification=True) 
+            text = text_message.text
+            # Include context if the text_message is replying to another message
+            if text_message.reply_to_message and text_message.reply_to_message.text:
+                context = text_message.reply_to_message.text
+                text = f"Context: {context}\n\n{text}"
+        else:
+            # Parse text from the command message (after "/ask ")
+            command_prefix = "/ask "
+            if message.text.startswith(command_prefix):
+                text = message.text[len(command_prefix):].strip()
+            else:
+                text = message.text  # fallback
+            response_message = bot.send_message(message.chat.id, 'Chiedendo a groq...', disable_notification=True)
+
+        event = Event()
+        animator = Thread(target=text_voice_reply_animator, args=(response_message,event,))
+        animator.start()
+
+        try:
+            response = client.chat.completions.create(
+                model=tokenManager.read_groq_model(),
+                messages=[
+                    {"role": "user", "content": text}
+                ]
+            )
+
+            cleaned_content = clean_think_tags(response.choices[0].message.content)
+
+            if text_message:
+                send_long_message(bot, text_message.chat.id, cleaned_content, disable_notification=True, reply_to_message_id=text_message.message_id)
+            else:
+                send_long_message(bot, message.chat.id, cleaned_content, disable_notification=True)
+                         
+            logger.telegramMessage("IA LLM risposta eseguita! Testo: "+cleaned_content,message)
+            
+            event.set()
+            animator.join()
+            bot.delete_message(response_message.chat.id, response_message.id) # delete reply message
+
+        except Exception as e:
+            event.set()
+            animator.join()
+            bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=f"Errore. {str(e)}")
+
+    except wrongChatID:
+        logger.telegramError("wrongChatID",message)
+        pass
 
 @bot.message_handler(commands=['patchnotes', 'Ottiene le ultime patch notes'])
 def get_patchnotes(message):
@@ -523,7 +613,7 @@ def get_patchnotes(message):
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
         f = open("data/patchnotes", "r") # reads and return entire file
-        bot.send_message(message.chat.id, f.read(),disable_notification=True)
+        send_long_message(bot, message.chat.id, f.read(), disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -541,7 +631,7 @@ def get_latestlogs(message):
 
         logs = logger.getLogs()
 
-        bot.send_message(message.chat.id, logs,disable_notification=True)
+        send_long_message(bot, message.chat.id, logs, disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
@@ -560,7 +650,7 @@ def get_stats(message):
 
         bot.delete_message(message.chat.id, message.id) # delete initial command
 
-        bot.send_message(message.chat.id, stats.getStats(),disable_notification=True)
+        send_long_message(bot, message.chat.id, stats.getStats(), disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)

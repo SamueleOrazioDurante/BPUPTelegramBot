@@ -51,3 +51,11 @@ def read_welcome_message():
 def read_stt_type():
 
     return read_value("TYPE",False)
+
+def read_groq_api_key():
+
+    return read_value("GROQ_API_KEY",False)
+
+def read_groq_model():
+
+    return read_value("GROQ_MODEL",False)

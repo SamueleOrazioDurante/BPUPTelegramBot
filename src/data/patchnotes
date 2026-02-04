@@ -84,3 +84,12 @@ Mai mi sarei di tornare su sto bot, soprattuto al mio compleanno, ma ehy, nuove 
 
   1) Ora è possibile selezionare VOSK come model type, trascrizioni molto veloci ma poco precise, quindi mi sa che si rimane con amichetto whisper
   2) Ora i messaggi vocali/video chiamati col /totext vengono messi in una coda e trascritti uno ad uno senza far crashare il bot
+
+  04/02/2026
+
+  Perchè l'ho fatto in python cristo signore non riesco a usarlo sto linguaggo :(
+
+    1) Ora i messaggi lunghi vengono suddivisi in blocchi da 4k char per evitare di superare il limite di telegram, quindi ora è possibile utilizzare i vari comandi patchnotes, logs, e il nuovo ask senza preoccuparsi di limiti di caratteri.
+    2) Aggiunto il comando /ask per poter comunicare direttamente con un IA. Ho scelto come default groq per via della sua API pubblica molto generosa. Il prompt viene creato usando il messaggio a cui si risponde col comando come context e il testo dopo /ask invece viene passato come messaggio.
+    3) Aggiunta sia l'api key di groq che la scelta di modello nel .env.
+    4) Aggiunto il comando ask alle stats.

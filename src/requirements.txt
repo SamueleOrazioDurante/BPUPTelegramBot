@@ -7,3 +7,4 @@ piper-tts
 vosk
 requests
 whisperx
+groq

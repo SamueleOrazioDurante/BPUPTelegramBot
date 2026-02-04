@@ -12,13 +12,15 @@ def init_dict():
     patchnotes = {}
     logs = {}
     stats = {}
+    ask = {}
 
     commands = {
         "totext":totext,
         "tts":tts,
         "patchnotes":patchnotes,
         "logs":logs,
-        "stats":stats
+        "stats":stats,
+        "ask":ask
     }
 
     tiktok = {}
