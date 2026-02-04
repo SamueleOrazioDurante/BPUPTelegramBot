@@ -6,6 +6,7 @@ services:
     volumes:
        - ./logs:/usr/src/app/logs
        - ./stats:/usr/src/app/data/stats
+       #- ./cache/huggingface:/root/.cache/huggingface # Uncomment this line if you want to cache Hugging Face models
     env_file:
        - .env
     restart: unless-stopped
