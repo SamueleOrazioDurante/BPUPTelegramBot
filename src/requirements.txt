@@ -1,6 +1,6 @@
 telebot==0.0.5
 transformers
-torch==2.5
+torch==2.5.1
 pyttsx3
 pydub
 piper-tts

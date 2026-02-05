@@ -6,10 +6,6 @@ from utilities.fileManager import clear
 import os
 import queue
 import threading
-import warnings
-
-# Suppress cpuinfo warnings (for ARM devices)
-warnings.filterwarnings("ignore", category=UserWarning, module="cpuinfo")
 
 # Crea una coda per le richieste di trascrizione
 transcription_queue = queue.Queue()
