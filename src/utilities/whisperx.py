@@ -23,15 +23,9 @@ device = "cpu"  # Use CPU instead of GPU
 batch_size = 16
 compute_type = "float32"  # Use float32 for CPU processing
 
-model = None  # Lazy load the model
-
-def get_model():
-    global model
-    if model is None:
-        logger.toConsole("Loading WhisperX model...")
-        model = whisperx.load_model("large-v2", device, compute_type=compute_type)
-        logger.toConsole("WhisperX model loaded.")
-    return model
+logger.toConsole("Loading WhisperX model...")
+model = whisperx.load_model("large-v2", device, compute_type=compute_type)
+logger.toConsole("WhisperX model loaded.")
 
 # Thread worker che processa le richieste nella coda
 def transcription_worker():
@@ -97,7 +91,6 @@ def get_queue_status():
 def process_audio(audio_path):
     try:
         logger.toConsole(f"Processing audio: {audio_path}")
-        model = get_model()  # Lazy load the model
         audio = whisperx.load_audio(audio_path)
         result = model.transcribe(audio, batch_size=batch_size)
         
