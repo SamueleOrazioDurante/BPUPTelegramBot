@@ -1,6 +1,6 @@
 telebot==0.0.5
 transformers
-torch
+torch==2.5
 pyttsx3
 pydub
 piper-tts
@@ -8,3 +8,4 @@ vosk
 requests
 whisperx
 groq
+matplotlib

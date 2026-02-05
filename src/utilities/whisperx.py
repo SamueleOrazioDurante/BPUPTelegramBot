@@ -21,7 +21,7 @@ queue_status = {
 
 device = "cpu"  # Use CPU instead of GPU
 batch_size = 16
-compute_type = "int8"  # Use float32 for CPU processing
+compute_type = "float32"  # Use float32 for CPU processing
 
 logger.toConsole("Loading WhisperX model...")
 model = whisperx.load_model("large-v2", device, compute_type=compute_type)
