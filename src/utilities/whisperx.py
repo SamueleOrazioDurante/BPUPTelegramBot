@@ -24,7 +24,7 @@ batch_size = 16
 compute_type = "float32"  # Use float32 for CPU processing
 
 logger.toConsole("Loading WhisperX model...")
-model = whisperx.load_model("large-v2", device, compute_type=compute_type)
+model = whisperx.load_model("large-v2", device, compute_type=compute_type, cache_dir="/root/.cache/huggingface")
 logger.toConsole("WhisperX model loaded.")
 
 # Thread worker che processa le richieste nella coda
