@@ -59,3 +59,7 @@ def read_groq_api_key():
 def read_groq_model():
 
     return read_value("GROQ_MODEL",False)
+
+def read_tts_type():
+
+    return read_value("TTS_TYPE",False)

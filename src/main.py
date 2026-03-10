@@ -23,7 +23,8 @@ elif(tokenManager.read_stt_type() == "GROQ"):
 else:
     import utilities.whisperx as voiceRecognizer
 import telegram.markupManager as markupManager
-import utilities.textToSpeech as textToSpeech
+if(tokenManager.read_tts_type() == "PIPER"):
+    import utilities.textToSpeech as textToSpeech
 import utilities.fileManager as fileManager
 import utilities.statsManager as stats
 
@@ -471,6 +472,10 @@ def voice_text_reply_animator(response_message,event):
 @bot.message_handler(commands=['tts', 'Text to speech'])
 
 def tts_handler(message):
+
+    if(tokenManager.read_tts_type() != "PIPER"):
+        bot.send_message(message.chat.id,"TTS non disponibile",disable_notification=True)
+        return
 
     try:    
 
