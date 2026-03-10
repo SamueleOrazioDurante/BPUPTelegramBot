@@ -1,95 +1,96 @@
-
-*VERSIONE 1.0*
+_VERSIONE 1.0_
 
 ...
 
-  Funzioni:
-    1) Download video tiktok 
-    2) Download post twitter (sia video, che immagini sia singoli che multipli)
-        {SOTTO I 50MB SE NON SI UTILIZZA LA LOCAL-API DI TELEGRAM}
-    3) Comando /totext per convertire un audio in testo
-        {NON FUNZIONANTE SE SI UTILIZZA LA LOCAL-API DI TELEGRAM} (perchè non ne ho idea e non ho voglia di capirlo :D)
+Funzioni: 1) Download video tiktok 2) Download post twitter (sia video, che immagini sia singoli che multipli)
+{SOTTO I 50MB SE NON SI UTILIZZA LA LOCAL-API DI TELEGRAM} 3) Comando /totext per convertire un audio in testo
+{NON FUNZIONANTE SE SI UTILIZZA LA LOCAL-API DI TELEGRAM} (perchè non ne ho idea e non ho voglia di capirlo :D)
 
-  API fornite da RapidAPI (versione gratuita, link nel file example.env)
+API fornite da RapidAPI (versione gratuita, link nel file example.env)
 
 ...
 
 25/09/24
-  - Prime patch notes :D
-  - Inserita la possibilità di ignorare tutte le richieste di comandi provenienti da chat id diversi da quello impostato nel file .env (TO-DO: verificare che il chat id riporti ad una chat corretta o sia -1)
-  - Messaggio di avvertimento all`avvio del bot con tutorial di utilizzo e versione attuale (TO-DO: visualizzare se è versione più aggiornata o è da aggiornare)
-  - Messaggio di errore sia su telegram che nei log se il file supera i 50mb (non viene nemmeno effettuata una prova di send del video per non causare errori inutili, viene però comunque eseguita la richiesta all`API) [SOLO PER TIKTOK] [CONTROLLO IGNORATO IN CASO DI LOCAL_API]
+
+- Prime patch notes :D
+- Inserita la possibilità di ignorare tutte le richieste di comandi provenienti da chat id diversi da quello impostato nel file .env (TO-DO: verificare che il chat id riporti ad una chat corretta o sia -1)
+- Messaggio di avvertimento all`avvio del bot con tutorial di utilizzo e versione attuale (TO-DO: visualizzare se è versione più aggiornata o è da aggiornare)
+- Messaggio di errore sia su telegram che nei log se il file supera i 50mb (non viene nemmeno effettuata una prova di send del video per non causare errori inutili, viene però comunque eseguita la richiesta all`API) [SOLO PER TIKTOK] [CONTROLLO IGNORATO IN CASO DI LOCAL_API]
 
 10/10/24
 
-  - Seconde patch notes :D
-  - Cambio del model utilizzato per la trascrizione dei messaggi vocali (da SpeechRecognizer di Google a Whisper di OpenAI, questo rende di conseguenza il progettino più pesante per via del model)
+- Seconde patch notes :D
+- Cambio del model utilizzato per la trascrizione dei messaggi vocali (da SpeechRecognizer di Google a Whisper di OpenAI, questo rende di conseguenza il progettino più pesante per via del model)
 
-  - TO-DO: video+vocali con video aggiunti alla trascrizione totext (quindi convertire un .mp4[o eventuale formato di telegram] a un wav per la trascrizione)
-  - TO-DO2: mettere la possibilità di scegliere lingua+model dalle variabili di ambiente (anche perchè sto usando il base model ma pesa un rene e mezzo)
+- TO-DO: video+vocali con video aggiunti alla trascrizione totext (quindi convertire un .mp4[o eventuale formato di telegram] a un wav per la trascrizione)
+- TO-DO2: mettere la possibilità di scegliere lingua+model dalle variabili di ambiente (anche perchè sto usando il base model ma pesa un rene e mezzo)
 
-*VERSIONE 1.1*
+_VERSIONE 1.1_
 
 17/10/24
 
-  - Aggiunta la possibilità di cambiare il model e la lingua tramite env file
-  - Aggiunta la possibilitá di trascrivere video e video note (i messaggi vocali con i video)
+- Aggiunta la possibilità di cambiare il model e la lingua tramite env file
+- Aggiunta la possibilitá di trascrivere video e video note (i messaggi vocali con i video)
 
 20/10/24
-  
-  - Aggiunto il comando /logs per visualizzare le ultime 75 righe di logs (così posso debuggare anche quando non ho il server a portata di mano)
+
+- Aggiunto il comando /logs per visualizzare le ultime 75 righe di logs (così posso debuggare anche quando non ho il server a portata di mano)
 
 22/10/24
 
-  - Aggiunta la possibilità di scaricare multiple immagini o video da instagram (son 100 api request al mese, non me le finite ty)
+- Aggiunta la possibilità di scaricare multiple immagini o video da instagram (son 100 api request al mese, non me le finite ty)
 
 24/10/24
 
-  - Aggiunta una specie di animazione al comando /totext e /tts nell'attesa che elabori la richiesta
-  - Aggiunto il comando /tts per eseguire il text to speech su qualunque messaggio di testo
+- Aggiunta una specie di animazione al comando /totext e /tts nell'attesa che elabori la richiesta
+- Aggiunto il comando /tts per eseguire il text to speech su qualunque messaggio di testo
 
 26/10/2024
 
-  - Inizio ottimizzazione dell'intero applicativo:
-
-    1) Folder tree ri-organizzato, ordinando tutti i vari file nelle rispettive cartelle (visto l'aumento delle righe di codice mi sembra anche giusto dargli 'na sistemata)
-    2) Ottimizzazione del codice nella sezione tokenManager (colui che gestisce tutti i valori dentro il file .env) 
-    3) RIMOSSO FILE config.py (utile solo nel debug), l'applicativo potra essere eseguito solo tramite Docker (in quanto richiede i valori delle variabili ambientali anche solo per partire, altrimenti ECCEZIONE)
-    4) Ottimizzata anche la sezione di markupManager per la futura gestione di nuovi comandi per gestire le impostazioni del bot
+- Inizio ottimizzazione dell'intero applicativo:
+  1. Folder tree ri-organizzato, ordinando tutti i vari file nelle rispettive cartelle (visto l'aumento delle righe di codice mi sembra anche giusto dargli 'na sistemata)
+  2. Ottimizzazione del codice nella sezione tokenManager (colui che gestisce tutti i valori dentro il file .env)
+  3. RIMOSSO FILE config.py (utile solo nel debug), l'applicativo potra essere eseguito solo tramite Docker (in quanto richiede i valori delle variabili ambientali anche solo per partire, altrimenti ECCEZIONE)
+  4. Ottimizzata anche la sezione di markupManager per la futura gestione di nuovi comandi per gestire le impostazioni del bot
 
 29/10/2024
-  
-  - Rework della logica di log delle informazioni (ancora da concludere, ma già a buon punto)
-  - Ottimizzazione del codice lato API request
+
+- Rework della logica di log delle informazioni (ancora da concludere, ma già a buon punto)
+- Ottimizzazione del codice lato API request
 
 31/10/2024
 
-  - Ulteriore modifica della logica dei log, con un'implementazione più accurata per l`ottenimento degli errori (che mi aiuta TANTO a debuggare, aiuto)
-  - Ottimizzazione del STT con segmentazione di audio in parti da 30 secondi l`uno (limite della pipeline), ora permette la trascrizione di messaggi di durata praticamente infinita
+- Ulteriore modifica della logica dei log, con un'implementazione più accurata per l`ottenimento degli errori (che mi aiuta TANTO a debuggare, aiuto)
+- Ottimizzazione del STT con segmentazione di audio in parti da 30 secondi l`uno (limite della pipeline), ora permette la trascrizione di messaggi di durata praticamente infinita
 
 05/11/2024
 
-  - Nuova funzione (ancora in fase di test, ma mi sembra funzionare anche troppo bene): statistiche di una chat salvati in un file json (non ancora visibili in chat). Dati che salva (contatore per ogni utente):
-    1) Numero di msg mandati
-    2) Numero di comandi usati
-    3) Numero di richieste effettuate all'API
-  
-  - Aggiunto comando /stats per la visualizzazione delle statistiche (per ora fa solo un print del dict, appena ne avrò voglia mi metto a formattare i dati)
+- Nuova funzione (ancora in fase di test, ma mi sembra funzionare anche troppo bene): statistiche di una chat salvati in un file json (non ancora visibili in chat). Dati che salva (contatore per ogni utente):
+  1. Numero di msg mandati
+  2. Numero di comandi usati
+  3. Numero di richieste effettuate all'API
 
-  - Sistemata la questione del comando /logs non funzionante per via del messaggio troppo lungo (utilizzando un metodo strano che non ho idea di come funzioni e con variabili denominate a caso, poi lo sistemo, giuro)
+- Aggiunto comando /stats per la visualizzazione delle statistiche (per ora fa solo un print del dict, appena ne avrò voglia mi metto a formattare i dati)
+
+- Sistemata la questione del comando /logs non funzionante per via del messaggio troppo lungo (utilizzando un metodo strano che non ho idea di come funzioni e con variabili denominate a caso, poi lo sistemo, giuro)
 
 03/04/2025
 
 Mai mi sarei di tornare su sto bot, soprattuto al mio compleanno, ma ehy, nuove feature richieste:
 
-  1) Ora è possibile selezionare VOSK come model type, trascrizioni molto veloci ma poco precise, quindi mi sa che si rimane con amichetto whisper
-  2) Ora i messaggi vocali/video chiamati col /totext vengono messi in una coda e trascritti uno ad uno senza far crashare il bot
+1. Ora è possibile selezionare VOSK come model type, trascrizioni molto veloci ma poco precise, quindi mi sa che si rimane con amichetto whisper
+2. Ora i messaggi vocali/video chiamati col /totext vengono messi in una coda e trascritti uno ad uno senza far crashare il bot
 
-  04/02/2026
+04/02/2026
 
-  Perchè l'ho fatto in python cristo signore non riesco a usarlo sto linguaggo :(
+Perchè l'ho fatto in python cristo signore non riesco a usarlo sto linguaggo :(
 
     1) Ora i messaggi lunghi vengono suddivisi in blocchi da 4k char per evitare di superare il limite di telegram, quindi ora è possibile utilizzare i vari comandi patchnotes, logs, e il nuovo ask senza preoccuparsi di limiti di caratteri.
     2) Aggiunto il comando /ask per poter comunicare direttamente con un IA. Ho scelto come default groq per via della sua API pubblica molto generosa. Il prompt viene creato usando il messaggio a cui si risponde col comando come context e il testo dopo /ask invece viene passato come messaggio.
     3) Aggiunta sia l'api key di groq che la scelta di modello nel .env.
     4) Aggiunto il comando ask alle stats.
+
+10/03/2026
+
+    1) Aggiunta la stream mode per il comando /ask
+    2) Aggiunta la possibilità di utilizzare le API di Groq per il modello Whisper (impostabile tramite TYPE=GROQ nel .env)

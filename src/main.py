@@ -18,6 +18,8 @@ if(tokenManager.read_stt_type() == "WHISPER"):
     import utilities.whisper as voiceRecognizer
 elif(tokenManager.read_stt_type() == "VOSK"):
     import utilities.vosk as voiceRecognizer
+elif(tokenManager.read_stt_type() == "GROQ"):
+    import utilities.groqWhisper as voiceRecognizer
 else:
     import utilities.whisperx as voiceRecognizer
 import telegram.markupManager as markupManager
