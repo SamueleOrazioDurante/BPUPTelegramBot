@@ -551,7 +551,6 @@ def ask_llm_handler(message):
             return
             
         if text_message:
-            response_message = bot.reply_to(text_message, 'Chiedendo a groq...',disable_notification=True) 
             text = text_message.text
             # Include context if the text_message is replying to another message
             if text_message.reply_to_message and text_message.reply_to_message.text:
@@ -564,21 +563,50 @@ def ask_llm_handler(message):
                 text = message.text[len(command_prefix):].strip()
             else:
                 text = message.text  # fallback
-            response_message = bot.send_message(message.chat.id, 'Chiedendo a groq...', disable_notification=True)
-
-        event = Event()
-        animator = Thread(target=text_voice_reply_animator, args=(response_message,event,))
-        animator.start()
 
         try:
-            response = client.chat.completions.create(
+            import time
+            stream = client.chat.completions.create(
                 model=tokenManager.read_groq_model(),
                 messages=[
                     {"role": "user", "content": text}
-                ]
+                ],
+                stream=True
             )
 
-            cleaned_content = clean_think_tags(response.choices[0].message.content)
+            collected_content = ""
+            draft_id = message.id if message.id != 0 else 1
+            last_update_time = time.time()
+            
+            for chunk in stream:
+                if chunk.choices[0].delta.content is not None:
+                    collected_content += chunk.choices[0].delta.content
+                    current_time = time.time()
+                    
+                    if current_time - last_update_time > 1.0: # update draft every 1 second
+                        cleaned_content = clean_think_tags(collected_content)
+                        if cleaned_content.strip():
+                            try:
+                                bot.send_message_draft(
+                                    chat_id=message.chat.id,
+                                    draft_id=draft_id,
+                                    text=cleaned_content[:4096] # partial draft
+                                )
+                            except Exception:
+                                pass
+                        last_update_time = current_time
+
+            cleaned_content = clean_think_tags(collected_content)
+            
+            # Clear draft at the end by sending a space (clearing logic depends on wrapper)
+            try:
+                bot.send_message_draft(
+                    chat_id=message.chat.id,
+                    draft_id=draft_id,
+                    text=" "
+                )
+            except Exception:
+                pass
 
             if text_message:
                 send_long_message(bot, text_message.chat.id, cleaned_content, disable_notification=True, reply_to_message_id=text_message.message_id)
@@ -586,15 +614,9 @@ def ask_llm_handler(message):
                 send_long_message(bot, message.chat.id, cleaned_content, disable_notification=True)
                          
             logger.telegramMessage("IA LLM risposta eseguita! Testo: "+cleaned_content,message)
-            
-            event.set()
-            animator.join()
-            bot.delete_message(response_message.chat.id, response_message.id) # delete reply message
 
         except Exception as e:
-            event.set()
-            animator.join()
-            bot.edit_message_text(chat_id=response_message.chat.id, message_id=response_message.message_id, text=f"Errore. {str(e)}")
+            bot.send_message(message.chat.id, f"Errore. {str(e)}", disable_notification=True)
 
     except wrongChatID:
         logger.telegramError("wrongChatID",message)
